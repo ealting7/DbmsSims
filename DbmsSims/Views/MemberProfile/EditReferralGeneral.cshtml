@@ -1,0 +1,141 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.ReferralViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@Html.Partial("~/Views/MemberProfile/_ReferralNav.cshtml")
+
+    
+@using (Html.BeginForm("EditReferralGeneral", "MemberProfile", FormMethod.Post))
+{
+
+    <div class="top-bottom-margins">
+
+
+        @*@if (Model.ModelUpdateMessage != null)
+                {
+            <div class="row success-msg">
+                @Model.ModelUpdateMessage
+            </div>
+        }*@
+
+
+        <div class="container">
+
+
+            @* ROW 1 *@
+            <div class="row">
+
+
+                @* COLUMN 1 *@
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Auth/Referral Type</label>
+                        </div>
+
+
+                        <div class="col-md-10 focus">
+                            @Html.DropDownListFor(m => m.type_id, new SelectList(Model.ReferralTypesInDbms, "id", "label"), "- Please Select -")
+                        </div>
+                        
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Context</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.context_id, new SelectList(Model.ReferralContextsInDbms, "id", "label"), "- Please Select -")
+                        </div>
+
+                    </div>
+
+                </div>
+                @* COLUMN 1 END *@
+
+
+
+                @* COLUMN 2 *@
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Priority</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.priority_id, new SelectList(Model.ReferralPrioritiesInDbms, "id", "label"), "- Please Select -")
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Category</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.referral_category, new SelectList(Model.ReferralCategoriesInDbms, "referral_category", "label"), "- Please Select -")
+                        </div>
+
+                    </div>
+
+                </div>
+                @* COLUMN 2 END *@
+
+            </div>
+            @* ROW 1 END *@
+
+
+
+            @* ROW 2 *@
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-md-10">
+                            <input type="submit" id="btnSave" value="Save" class="btn btn-primary" />
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+        @* CONTAINER END *@
+
+
+        @Html.HiddenFor(m => m.ReferralNumber)
+
+    </div>
+
+}
+
+
+<script type="text/javascript">
+    $(document).on("click", '#btnSave', function (e) {
+        //alert('@Model.ModelUpdateMessage');
+      });
+</script>
+

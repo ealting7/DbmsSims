@@ -1,0 +1,1649 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.ReferralRefersViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@Html.Partial("~/Views/MemberProfile/_ReferralNav.cshtml",
+              new DbmsSims.Models.ICMS2.ViewModels.ReferralViewModel { ReferralNumber = Model.ReferralNumber, AuthNumber = Model.AuthNumber })
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmUtils" }))
+    {
+
+
+    @* REMOVE REFER ITEMS *@
+    <div id="divRemove" class="border-bottom-divider-1px" style="display:none;">
+
+        <div class="top-bottom-margins">
+
+            <div class="container">
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div><span class="lblRed">REMOVE?:</span></div>
+                    <div><span id="spanRemoveEntityName"></span></div>
+                    <input type="button" id="btnRemove" value="Remove" class="btn btn-primary" />
+                    <input type="button" id="btnRemoveCancel" value="Cancel" class="btn btn-primary" />
+
+                    <input id="hdeRemoveReferType" type="hidden" value="">
+                    <input id="hdeRemoveReferId" type="hidden" value="">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    @* PROVIDER SEARCH *@
+    <div id="divProviderSearch" class="border-bottom-divider-1px" style="display:none;">
+
+        <div class="top-bottom-margins">
+
+            <div class="container">
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>First Name:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="txtProviderFirstName"><br>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>Last Name:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="txtProviderLastName"><br>
+                    </div>
+
+                </div>
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>City:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="txtProviderCity"><br>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>State:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        @Html.DropDownListFor(m => m.state_abbrev,
+                                              new SelectList(Model.StatesInUsa, "state_abbrev", "state_name"),
+                                              "- Please Select -",
+                                              new { id = "cboProviderState" })
+                    </div>
+
+                </div>
+
+
+                @* ROW START *@
+                <div class="row">
+                    <div class="col-lg-5">
+                        <input type="button" id="btnSearchProvider" value="Search" class="btn btn-primary" />
+                        <input type="button" id="btnSearchProviderCancel" value="Cancel" class="btn btn-primary" />
+                    </div>
+                </div>
+
+
+                @* ROW START *@
+                <div class="row">
+                    <table id="tblSearchProviderResults" class="table hidden">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Address</th>
+                                <th>Address Cont</th>
+                                <th>City</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+
+                <input id="hdeSearchProviderType" type="hidden" value="">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    @* FACILITY SEARCH *@
+    <div id="divFacilitySearch" class="border-bottom-divider-1px" style="display:none;">
+
+        <div class="top-bottom-margins">
+
+            <div class="container">
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>Name:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="txtFacilityName"><br>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>City:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="txtFacilityCity"><br>
+                    </div>
+
+                </div>
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>State:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        @Html.DropDownListFor(m => m.state_abbrev,
+                                              new SelectList(Model.StatesInUsa, "state_abbrev", "state_name"),
+                                              "- Please Select -",
+                                              new { id = "cboFacilityState" })
+                    </div>
+
+
+                    <div class="col-lg-2">                        
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+
+                </div>
+
+
+                @* ROW START *@
+                <div class="row">
+                    <div class="col-lg-5">
+                        <input type="button" id="btnSearchFacility" value="Search" class="btn btn-primary" />
+                        <input type="button" id="btnSearchFacilityCancel" value="Cancel" class="btn btn-primary" />
+                    </div>
+                </div>
+
+
+                @* ROW START *@
+                <div class="row">
+                    <table id="tblSearchFacilityResults" class="table hidden">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Address Cont</th>
+                                <th>City</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+
+                <input id="hdeSearchFacilityType" type="hidden" value="">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    @* VENDOR SEARCH *@
+    <div id="divVendorSearch" class="border-bottom-divider-1px" style="display:none;">
+
+        <div class="top-bottom-margins">
+
+            <div class="container">
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>Name:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="txtVendorName"><br>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>City:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="txtVendorCity"><br>
+                    </div>
+
+                </div>
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>State:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        @Html.DropDownListFor(m => m.state_abbrev,
+                                              new SelectList(Model.StatesInUsa, "state_abbrev", "state_name"),
+                                              "- Please Select -",
+                                              new { id = "cboVendorState" })
+                    </div>
+
+
+                    <div class="col-lg-2">
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+
+                </div>
+
+
+                @* ROW START *@
+                <div class="row">
+                    <div class="col-lg-5">
+                        <input type="button" id="btnSearchVendor" value="Search" class="btn btn-primary" />
+                        <input type="button" id="btnSearchVendorCancel" value="Cancel" class="btn btn-primary" />
+                    </div>
+                </div>
+
+
+                @* ROW START *@
+                <div class="row">
+                    <table id="tblSearchVendorResults" class="table hidden">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Address Cont</th>
+                                <th>City</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+
+                <input id="hdeSearchVendorType" type="hidden" value="">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    @* PLACE OF SERVICE SEARCH *@
+    <div id="divPosSearch" class="border-bottom-divider-1px" style="display:none;">
+
+        <div class="top-bottom-margins">
+
+            <div class="container">
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>Place Of Service:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        @Html.DropDownListFor(m => m.pos_id,
+                                              new SelectList(Model.PlaceOfServices, "id", "name"),
+                                              "- Please Select -",
+                                              new { id = "cboPlaceOfService" })
+                    </div>
+
+
+                </div>
+
+
+                @* ROW START *@
+                <div class="row">
+                    <div class="col-lg-5">
+                        <input type="button" id="btnAddPos" value="Add" class="btn btn-primary" />
+                        <input type="button" id="btnAddPosCancel" value="Cancel" class="btn btn-primary" />
+                    </div>
+                </div>
+
+
+                <input id="hdeAddPosType" type="hidden" value="">
+                <input id="hdeAddPosId" type="hidden" value="">
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+    @* STD OFFICE LOCATION *@
+    <div id="divStdOfficeLocationAdd" class="border-bottom-divider-1px" style="display:none;">
+
+        <div class="top-bottom-margins">
+
+            <div class="container">
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>STD Office Location:</label>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="text" id="txtStdOfficeLocation">
+                    </div>
+
+
+                </div>
+
+
+                @* ROW START *@
+                <div class="row">
+                    <div class="col-lg-5">
+                        <input type="button" id="btnAddStdOfficeLocation" value="Add" class="btn btn-primary" />
+                        <input type="button" id="btnAddStdOfficeLocationCancel" value="Cancel" class="btn btn-primary" />
+                    </div>
+                </div>
+
+
+                <input id="hdeAddStdOfficeLocationType" type="hidden" value="">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    @* REFER ITEMS *@
+    <div class="top-bottom-margins">
+
+        <div class="container">
+
+            @* ROW START *@
+            <div class="row">
+
+                @* referred by provider *@
+                <div class="col-lg-5">
+
+                    <div class="col">
+                        <label>Referred By Provider:</label>
+                    </div>
+
+                    <div class="col">
+
+                        @if (!string.IsNullOrEmpty(Model.ReferredByProviderPcpId))
+                        {
+                            @Html.ActionLink(Model.ReferredByProviderName, "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkRemoveReferredByProvider",
+                                                 RemoveType = "ReferredByProvider",
+                                                 RemoveId = Model.ReferredByProviderPcpId
+                                             })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Add Provider", "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkAddReferredByProvider",
+                                                 SearchType = "ReferredByProvider"
+                                             })
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+                @* referred to provider *@
+                <div class="col-lg-5">
+
+                    <div class="col">
+                        <label>Referred To Provider:</label>
+                    </div>
+
+                    <div class="col">
+                        @if (!string.IsNullOrEmpty(Model.ReferredToProviderPcpId))
+                        {
+                            @Html.ActionLink(Model.ReferredToProviderName, "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkRemoveReferredToProvider",
+                                                 RemoveType = "ReferredToProvider",
+                                                 RemoveId = Model.ReferredToProviderPcpId
+                                             })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Add Provider", "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkAddReferredToProvider",
+                                                 SearchType = "ReferredToProvider"
+                                             })
+                        }
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* referred by facility *@
+                <div class="col-lg-5">
+
+                    <div class="col">
+                        <label>Referred By Facility:</label>
+                    </div>
+
+                    <div class="col">
+
+                        @if (Model.ReferredByFacilityId > 0)
+                        {
+                            @Html.ActionLink(Model.ReferredByFacilityName, "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkRemoveReferredByFacility",
+                                                 RemoveType = "ReferredByFacility",
+                                                 RemoveId = Model.ReferredByFacilityId.ToString()
+                                             })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Add Facility", "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkAddReferredByFacility",
+                                                 SearchType = "ReferredByFacility"
+                                             })
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+                @* referred to facility *@
+                <div class="col-lg-5">
+
+                    <div class="col">
+                        <label>Referred To Facility:</label>
+                    </div>
+
+                    <div class="col">
+
+                        @if (Model.ReferredToFacilityId > 0)
+                        {
+                            @Html.ActionLink(Model.ReferredToFacilityName, "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkRemoveReferredToFacility",
+                                                 RemoveType = "ReferredToFacility",
+                                                 RemoveId = Model.ReferredToFacilityId.ToString()
+                                             })
+                        }
+                        else
+                        { 
+                            @Html.ActionLink("Add Facility", "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkAddReferredToFacility",
+                                                 SearchType = "ReferredToFacility"
+                                             })
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* blank column *@
+                <div class="col-lg-5">
+
+                    <div class="col">
+                        
+                    </div>
+
+                    <div class="col">
+                        
+                    </div>
+
+                </div>
+
+
+
+                @* referred to vendor *@
+                <div class="col-lg-5">
+
+                    <div class="col">
+                        <label>Referred To Vendor:</label>
+                    </div>
+
+                    <div class="col">
+                        
+                        @if (Model.ReferredToVendorId > 0)
+                        {
+                            @Html.ActionLink(Model.ReferredToVendorName, "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkRemoveReferredToVendor",
+                                                 RemoveType = "ReferredToVendor",
+                                                 RemoveId = Model.ReferredToVendorId.ToString()
+                                             })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Add Vendor", "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkAddReferredToVendor",
+                                                 SearchType = "ReferredToVendor"
+                                             })
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* referred by place of service pos *@
+                <div class="col-lg-5">
+
+                    <div class="col">
+                        <label>Referred By Place of Service (POS):</label>
+                    </div>
+
+                    <div class="col">
+
+                        @if (Model.ReferredByPlaceOfServiceId > 0)
+                        {
+                            @Html.ActionLink(Model.ReferredByPlaceOfServiceName, "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkRemoveReferredByPlaceOfService",
+                                                 RemoveType = "ReferredByPlaceOfService",
+                                                 RemoveId = Model.ReferredByPlaceOfServiceId.ToString()
+                                             })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Add Place Of Service", "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkAddReferredByPlaceOfService",
+                                                 SearchType = "ReferredByPlaceOfService"
+                                             })
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+                @* referred to place of service pos *@
+                <div class="col-lg-5">
+
+                    <div class="col">
+                        <label>Referred To Place of Service (POS):</label>
+                    </div>
+
+                    <div class="col">
+
+                        @if (Model.ReferredToPlaceOfServiceId > 0)
+                        {
+                            @Html.ActionLink(Model.ReferredToPlaceOfServiceName, "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkRemoveReferredToPlaceOfService",
+                                                 RemoveType = "ReferredToPlaceOfService",
+                                                 RemoveId = Model.ReferredToPlaceOfServiceId.ToString()
+                                             })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Add Place Of Service", "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkAddReferredToPlaceOfService",
+                                                 SearchType = "ReferredToPlaceOfService"
+                                             })
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* referred by std office location *@
+                <div class="col-lg-5">
+
+                    <div class="col">
+                        <label>Referred By STD Office Location:</label>
+                    </div>
+
+                    <div class="col">
+
+                        @if (!string.IsNullOrEmpty(Model.ReferredByStdOfficeLocationName))
+                        {
+                            @Html.ActionLink(Model.ReferredByStdOfficeLocationName, "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkRemoveReferredByStdOfficeLocation",
+                                                 RemoveType = "ReferredByStdOfficeLocation",
+                                                 RemoveId = Model.ReferredByStdOfficeLocationName
+                                             })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Add STD Office Location", "", "", null,
+                                             new
+                                             {
+                                                 id = "lnkAddReferredByStdOfficeLocation",
+                                                 SearchType = "ReferredByStdOfficeLocation"
+                                             })
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+                @* blank column *@
+                <div class="col-lg-5">
+
+                    <div class="col">
+                        
+                    </div>
+
+                    <div class="col">
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    @Html.HiddenFor(m => m.ReferralNumber, new { @id = "hdeRefNum" })
+
+}
+
+
+<script type="text/javascript">
+
+
+    //remove referred BY provider link click
+    $("#lnkRemoveReferredByProvider").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowRemoveDiv($this);
+
+    });
+
+    //remove referred TO provider link click
+    $("#lnkRemoveReferredToProvider").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowRemoveDiv($this);
+
+    });
+
+
+    //remove referred BY facility link click
+    $("#lnkRemoveReferredByFacility").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowRemoveDiv($this);
+
+    });
+
+    //remove referred TO facility link click
+    $("#lnkRemoveReferredToFacility").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowRemoveDiv($this);
+
+    });
+
+
+    //remove referred TO vendor link click
+    $("#lnkRemoveReferredToVendor").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowRemoveDiv($this);
+
+    });
+
+
+    //remove referred BY place of service link click
+    $("#lnkRemoveReferredByPlaceOfService").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowRemoveDiv($this);
+
+    });
+
+    //remove referred TO place of service link click
+    $("#lnkRemoveReferredToPlaceOfService").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowRemoveDiv($this);
+
+    });
+
+
+    //remove referred BY std office location
+    $("#lnkRemoveReferredByStdOfficeLocation").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowRemoveDiv($this);
+
+    });
+
+
+
+    //remove cancel button click
+    $('#btnRemoveCancel').click(function () {
+        HideRemoveDiv();
+    });
+
+    //remove button click
+    $('#btnRemove').click(function () {
+
+        var strRefNum = $("#hdeRefNum").attr('value');
+        var strReferId = $("#hdeRemoveReferId").attr('value');
+        var strReferType = $("#hdeRemoveReferType").attr('value');
+
+        if (strReferId.length > 0 && strReferType.length > 0) {
+
+            $.ajax({
+                url: '@Url.Action("RemoveReferredByToItemFromReferral", "MemberProfile")',
+                type: 'POST',
+                datatype: 'json',
+                data: { RefNum: strRefNum, RemoveType: strReferType, RemoveId: strReferId },
+                success: function (result) {
+                    location.reload();
+                },
+                error: function (result) {
+                    alert("Unable to remove item");
+                }
+            });
+
+        }
+        else {
+            alert("Unable to remove item");
+        }
+
+    });
+
+
+
+    function ShowRemoveDiv(linkClicked) {
+
+        HideSearchProviderDiv();
+        HideSearchFacilityDiv();
+        HideSearchVendorDiv();
+        HideAddPlaceOfServiceDiv();
+        HideAddStdOfficeLocationeDiv();
+
+        $('#hdeRemoveReferId').attr('value', linkClicked.attr('RemoveId'));
+        $('#hdeRemoveReferType').attr('value', linkClicked.attr('RemoveType'));
+
+
+        var strEntityText = linkClicked.text();
+        $('#spanRemoveEntityName').html(strEntityText);
+
+
+        $("#divRemove").css("display", " ");
+        $("#divRemove").show();
+
+        $("#btnRemove").focus();
+
+    }
+
+    function HideRemoveDiv() {
+        $("#divRemove").css("display", "none");
+    }
+
+
+
+
+
+
+
+    //add referred BY provider link click
+    $("#lnkAddReferredByProvider").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowSearchProviderDiv($this);
+
+    });
+
+    //add referred TO provider link click
+    $("#lnkAddReferredToProvider").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowSearchProviderDiv($this);
+
+    });
+
+
+
+
+    //search cancel button click
+    $('#btnSearchProviderCancel').click(function () {
+        HideSearchProviderDiv();
+    });
+
+    $('#btnSearchProvider').click(function () {
+
+        var strSearchType = $("#hdeSearchProviderType").attr('value');
+        var strRefNum = $("#hdeRefNum").attr('value');
+
+        if (strSearchType.length > 0 && strRefNum.length > 0)
+        {
+
+            var strFirstName = $("#txtProviderFirstName").val()
+            var strLastName = $("#txtProviderLastName").val()
+            var strCity = $("#txtProviderCity").val()
+            var strState = $("#cboProviderState").val()
+
+            if (strFirstName.length > 0 && strLastName.length > 0)
+            {
+
+                $.ajax({
+                    url: '@Url.Action("ReferredByToProviderSearch", "MemberProfile")',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: { FirstName: strFirstName, LastName: strLastName, City: strCity, State: strState },
+                    success: function (result) {
+
+                        $('#tblSearchProviderResults tbody').remove();
+
+
+                        var len = result.length;
+                        var txt = "";
+
+                        if (len > 0) {
+
+                            $.each($.parseJSON(result), function (i, providersReturned) {
+
+                                txt += "<tbody>";
+                                txt += "<tr>";
+
+                                txt += "<th scope = 'row'>";
+                                txt += "<a id='addprov' href=\"javascript:AddProvider('" + strSearchType + "','" + strRefNum + "','" + providersReturned.PcpId + "')\">Add</a>";
+                                txt += "</th>";
+
+                                txt += "<td>";
+                                txt += providersReturned.FirstName;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += providersReturned.LastName;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += providersReturned.Address1;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += providersReturned.Address2;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += providersReturned.City;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += providersReturned.State;
+                                txt += "</td>";
+
+                                txt += "</tr>";
+                                txt += "</tbody>";
+
+                            })
+
+                        }
+
+
+                        if (txt != "") {
+                            $("#tblSearchProviderResults").append(txt).removeClass("hidden");
+                        }
+                        else {
+                            $("#tblSearchProviderResults").addClass("hidden");
+                            alert("No Providers Match Your Search");
+                        }
+
+
+                    },
+                    error: function (result) {
+                        $("#tblSearchProviderResults").addClass("hidden");
+                    }
+                    });
+
+
+            }
+            else
+            {
+                alert("Please enter a search parameters for First and Last Name");
+                $("#txtProviderFirstName").focus();
+            }
+
+        }
+        else
+        {
+            alert("Unable to search for a Provider");
+        }
+
+    });
+
+
+
+    function ShowSearchProviderDiv(linkClicked) {
+
+        HideRemoveDiv();
+        HideSearchFacilityDiv();
+        HideSearchVendorDiv();
+        HideAddPlaceOfServiceDiv();
+        HideAddStdOfficeLocationeDiv();
+
+        $("#txtProviderFirstName").val('');
+        $("#txtProviderLastName").val('');
+        $("#txtProviderCity").val('');
+        $("#cboProviderState").val('- Please Select -');
+        $("#cboProviderState").get(0).selectedIndex = 0;
+
+        $('#hdeSearchProviderType').attr('value', linkClicked.attr('SearchType'));
+
+
+        $("#divProviderSearch").css("display", " ");
+        $("#divProviderSearch").show();
+
+        $("#txtProviderFirstName").focus();
+
+    }
+
+    function HideSearchProviderDiv()
+    {
+        $("#divProviderSearch").css("display", "none");
+        $("#tblSearchProviderResults").addClass("hidden");
+    }
+
+    function AddProvider(searchType,refNum,Id)
+    {
+
+        if (searchType.length > 0 && refNum.length > 0 && Id.length > 0) {
+
+            $.ajax({
+                url: '@Url.Action("AddReferredByToItemToReferral", "MemberProfile")',
+                type: 'POST',
+                datatype: 'json',
+                data: { RefNum: refNum, AddType: searchType, AddId: Id },
+                success: function (result) {
+                    location.reload();
+                },
+                error: function (result) {
+                    alert("Unable to add item");
+                }
+            });
+
+        }
+        else {
+            alert("Unable to add item");
+        }
+
+    }
+
+
+
+
+
+
+
+    //add referred TO facility link click
+    $("#lnkAddReferredToFacility").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowSearchFacilityDiv($this);
+
+    });
+
+    //add referred BY facility link click
+    $("#lnkAddReferredByFacility").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowSearchFacilityDiv($this);
+
+    });
+
+
+
+
+    $('#btnSearchFacilityCancel').click(function () {
+        HideSearchFacilityDiv();
+    });
+
+    $('#btnSearchFacility').click(function () {
+
+        var strSearchType = $("#hdeSearchFacilityType").attr('value');
+        var strRefNum = $("#hdeRefNum").attr('value');
+
+        if (strSearchType.length > 0 && strRefNum.length > 0)
+        {
+
+            var strName = $("#txtFacilityName").val()
+            var strCity = $("#txtFacilityCity").val()
+            var strState = $("#cboFacilityState").val()
+
+            if (strName.length > 0)
+            {
+
+                $.ajax({
+                    url: '@Url.Action("ReferredByToFacilitySearch", "MemberProfile")',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: { Name: strName, City: strCity, State: strState },
+                    success: function (result) {
+
+                        $('#tblSearchFacilityResults tbody').remove();
+
+
+                        var len = result.length;
+                        var txt = "";
+
+                        if (len > 0) {
+
+                            $.each($.parseJSON(result), function (i, facilityReturned) {
+
+                                txt += "<tbody>";
+                                txt += "<tr>";
+
+                                txt += "<th scope = 'row'>";
+                                txt += "<a id='addfac' href=\"javascript:AddFacility('" + strSearchType + "','" + strRefNum + "','" + facilityReturned.FacilityId  + "')\">Add</a>";
+                                txt += "</th>";
+
+                                txt += "<td>";
+                                txt += facilityReturned.Name;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += facilityReturned.Address1;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += facilityReturned.Address2;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += facilityReturned.City;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += facilityReturned.State;
+                                txt += "</td>";
+
+                                txt += "</tr>";
+                                txt += "</tbody>";
+
+                            })
+
+                        }
+
+
+                        if (txt != "") {
+                            $("#tblSearchFacilityResults").append(txt).removeClass("hidden");
+                        }
+                        else {
+                            $("#tblSearchFacilityResults").addClass("hidden");
+                            alert("No Facilities Match Your Search");
+                        }
+
+
+                    },
+                    error: function (result) {
+                        $("#tblSearchFacilityResults").addClass("hidden");
+                    }
+                    });
+
+
+            }
+            else
+            {
+                alert("Please enter a search parameters for Name");
+                $("#txtFacilityName").focus();
+            }
+
+        }
+        else
+        {
+            alert("Unable to search for a Facility");
+        }
+
+    });
+
+
+
+
+    function ShowSearchFacilityDiv(linkClicked) {
+
+        HideRemoveDiv();
+        HideSearchProviderDiv();
+        HideSearchVendorDiv();
+        HideAddPlaceOfServiceDiv();
+        HideAddStdOfficeLocationeDiv();
+
+        $("#txtFacilityName").val('');
+        $("#txtFacilityCity").val('');
+        $("#cboFacilityState").val('- Please Select -');
+        $("#cboFacilityState").get(0).selectedIndex = 0;
+
+        $('#hdeSearchFacilityType').attr('value', linkClicked.attr('SearchType'));
+
+
+        $("#divFacilitySearch").css("display", " ");
+        $("#divFacilitySearch").show();
+
+        $("#txtFacilityName").focus();
+
+    }
+
+    function HideSearchFacilityDiv() {
+        $("#divFacilitySearch").css("display", "none");
+        $("#tblSearchFacilityResults").addClass("hidden");
+    }
+
+
+
+
+
+    function AddFacility(searchType,refNum,Id)
+    {
+
+        if (searchType.length > 0 && refNum.length > 0 && Id.length > 0) {
+
+            $.ajax({
+                url: '@Url.Action("AddReferredByToItemToReferral", "MemberProfile")',
+                type: 'POST',
+                datatype: 'json',
+                data: { RefNum: refNum, AddType: searchType, AddId: Id },
+                success: function (result) {
+                    location.reload();
+                },
+                error: function (result) {
+                    alert("Unable to add item");
+                }
+            });
+
+        }
+        else {
+            alert("Unable to add item");
+        }
+
+    }
+
+
+
+
+
+    //add referred TO vendor link click
+    $("#lnkAddReferredToVendor").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowSearchVendorDiv($this);
+
+    });
+
+
+
+
+    $('#btnSearchVendorCancel').click(function () {
+        HideSearchVendorDiv();
+    });
+
+    $('#btnSearchVendor').click(function () {
+
+        var strSearchType = $("#hdeSearchVendorType").attr('value');
+        var strRefNum = $("#hdeRefNum").attr('value');
+
+        if (strSearchType.length > 0 && strRefNum.length > 0)
+        {
+
+            var strName = $("#txtVendorName").val()
+            var strCity = $("#txtVendorCity").val()
+            var strState = $("#cboVendorState").val()
+
+            if (strName.length > 0)
+            {
+
+                $.ajax({
+                    url: '@Url.Action("ReferredByToVendorSearch", "MemberProfile")',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: { Name: strName, City: strCity, State: strState },
+                    success: function (result) {
+
+                        $('#tblSearchVendorResults tbody').remove();
+
+
+                        var len = result.length;
+                        var txt = "";
+
+                        if (len > 0) {
+
+                            $.each($.parseJSON(result), function (i, vendorReturned) {
+
+                                txt += "<tbody>";
+                                txt += "<tr>";
+
+                                txt += "<th scope = 'row'>";
+                                txt += "<a id='addfac' href=\"javascript:AddVendor('" + strSearchType + "','" + strRefNum + "','" + vendorReturned.VendorId  + "')\">Add</a>";
+                                txt += "</th>";
+
+                                txt += "<td>";
+                                txt += vendorReturned.Name;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += vendorReturned.Address1;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += vendorReturned.Address2;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += vendorReturned.City;
+                                txt += "</td>";
+
+                                txt += "<td>";
+                                txt += vendorReturned.State;
+                                txt += "</td>";
+
+                                txt += "</tr>";
+                                txt += "</tbody>";
+
+                            })
+
+                        }
+
+
+                        if (txt != "") {
+                            $("#tblSearchVendorResults").append(txt).removeClass("hidden");
+                        }
+                        else {
+                            $("#tblSearchVendorResults").addClass("hidden");
+                            alert("No Vendors Match Your Search");
+                        }
+
+
+                    },
+                    error: function (result) {
+                        $("#tblSearchVendorResults").addClass("hidden");
+                    }
+                    });
+
+
+            }
+            else
+            {
+                alert("Please enter a search parameters for Name");
+                $("#txtVendorName").focus();
+            }
+
+        }
+        else
+        {
+            alert("Unable to search for a Vendor");
+        }
+
+    });
+
+
+
+
+    function ShowSearchVendorDiv(linkClicked) {
+
+        HideRemoveDiv();
+        HideSearchProviderDiv();
+        HideSearchFacilityDiv();
+        HideAddPlaceOfServiceDiv();
+        HideAddStdOfficeLocationeDiv();
+
+        $("#txtVendorName").val('');
+        $("#txtVendorCity").val('');
+        $("#cboVendorState").val('- Please Select -');
+        $("#cboVendorState").get(0).selectedIndex = 0;
+
+        $('#hdeSearchVendorType').attr('value', linkClicked.attr('SearchType'));
+
+
+        $("#divVendorSearch").css("display", " ");
+        $("#divVendorSearch").show();
+
+        $("#txtVendorName").focus();
+
+    }
+
+    function HideSearchVendorDiv() {
+        $("#divVendorSearch").css("display", "none");
+        $("#tblSearchVendorResults").addClass("hidden");
+    }
+
+
+
+
+
+    function AddVendor(searchType,refNum,Id)
+    {
+
+        if (searchType.length > 0 && refNum.length > 0 && Id.length > 0) {
+
+            $.ajax({
+                url: '@Url.Action("AddReferredByToItemToReferral", "MemberProfile")',
+                type: 'POST',
+                datatype: 'json',
+                data: { RefNum: refNum, AddType: searchType, AddId: Id },
+                success: function (result) {
+                    location.reload();
+                },
+                error: function (result) {
+                    alert("Unable to add item");
+                }
+            });
+
+        }
+        else {
+            alert("Unable to add item");
+        }
+
+    }
+
+
+
+
+
+    //add referred TO place of service link click
+    $("#lnkAddReferredToPlaceOfService").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowAddPlaceOfServiceDiv($this);
+
+    });
+
+    //add referred BY place of service link click
+    $("#lnkAddReferredByPlaceOfService").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowAddPlaceOfServiceDiv($this);
+
+    });
+
+
+
+    $('#cboPlaceOfService').change(function () {
+
+        var pos = $(this).val();
+
+        if (pos != '- Please Select -')
+        {
+            $('#hdeAddPosId').attr('value', pos);
+        }
+        else
+        {
+            $('#hdeAddPosId').attr('value', '');
+        }
+
+    });
+
+    $('#btnAddPosCancel').click(function () {
+        HideAddPlaceOfServiceDiv();
+    });
+
+    $('#btnAddPos').click(function () {
+
+        var strSearchType = $("#hdeAddPosType").attr('value');
+        var strRefNum = $("#hdeRefNum").attr('value');
+        var Id = $("#hdeAddPosId").attr('value');
+
+        if (strSearchType.length > 0 && strRefNum.length > 0 && Id.length > 0) {
+
+            $.ajax({
+                url: '@Url.Action("AddReferredByToItemToReferral", "MemberProfile")',
+                type: 'POST',
+                datatype: 'json',
+                data: { RefNum: strRefNum, AddType: strSearchType, AddId: Id },
+                success: function (result) {
+                    location.reload();
+                },
+                error: function (result) {
+                    alert("Unable to add item");
+                }
+            });
+
+        }
+        else {
+            alert("Unable to add item");
+        }
+
+    });
+
+
+
+
+    function ShowAddPlaceOfServiceDiv(linkClicked) {
+
+        HideRemoveDiv();
+        HideSearchProviderDiv();
+        HideSearchFacilityDiv();
+        HideSearchVendorDiv();
+        HideAddStdOfficeLocationeDiv();
+
+        $("#cboPlaceOfService").val('- Please Select -');
+        $("#cboPlaceOfService").get(0).selectedIndex = 0;
+
+        $('#hdeAddPosType').attr('value', linkClicked.attr('SearchType'));
+        $('#hdeAddPosId').attr('value', '');
+
+
+        $("#divPosSearch").css("display", " ");
+        $("#divPosSearch").show();
+
+        $("#cboPlaceOfService").focus();
+
+    }
+
+    function HideAddPlaceOfServiceDiv() {
+        $("#divPosSearch").css("display", "none");
+    }
+
+
+
+
+
+
+
+
+    //add referred BY std office location link click
+    $("#lnkAddReferredByStdOfficeLocation").click(function (e) {
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        ShowAddStdOfficeLocationDiv($this);
+
+    });
+
+
+
+
+    $('#btnAddStdOfficeLocationCancel').click(function () {
+        HideAddPlaceOfServiceDiv();
+    });
+
+    $('#btnAddStdOfficeLocation').click(function () {
+
+        var strRefNum = $("#hdeRefNum").attr('value');
+        var strSearchType = $("#hdeAddStdOfficeLocationType").attr('value');
+        var strStdOfficeLocation = $("#txtStdOfficeLocation").val();
+
+        if (strStdOfficeLocation.length > 0 && strSearchType.length > 0 && strRefNum.length > 0) {
+
+            $.ajax({
+                url: '@Url.Action("AddReferredByToItemToReferral", "MemberProfile")',
+                type: 'POST',
+                datatype: 'json',
+                data: { RefNum: strRefNum, AddType: strSearchType, AddId: strStdOfficeLocation },
+                success: function (result) {
+                    location.reload();
+                },
+                error: function (result) {
+                    alert("Unable to add item");
+                }
+            });
+
+        }
+        else {
+            alert("Unable to add item");
+        }
+
+    });
+
+
+
+    function ShowAddStdOfficeLocationDiv(linkClicked) {
+
+        HideRemoveDiv();
+        HideSearchProviderDiv();
+        HideSearchFacilityDiv();
+        HideSearchVendorDiv();
+        HideAddPlaceOfServiceDiv();
+
+        $("#txtStdOfficeLocation").val('');
+
+        $('#hdeAddStdOfficeLocationType').attr('value', linkClicked.attr('SearchType'));
+
+
+        $("#divStdOfficeLocationAdd").css("display", " ");
+        $("#divStdOfficeLocationAdd").show();
+
+        $("#txtStdOfficeLocation").focus();
+
+    }
+
+    function HideAddStdOfficeLocationeDiv() {
+        $("#divStdOfficeLocationAdd").css("display", "none");
+    }
+
+
+</script>

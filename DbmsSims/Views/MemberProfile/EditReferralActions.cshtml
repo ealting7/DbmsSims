@@ -1,0 +1,211 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.ReferralViewModel
+
+@{
+    ViewBag.Title = "EditReferralActions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("~/Views/MemberProfile/_ReferralNav.cshtml")
+
+
+
+@using (Html.BeginForm("EditReferralActions", "MemberProfile", FormMethod.Post))
+{
+
+    <div class="top-bottom-margins">
+
+
+        @if (Model.ModelUpdateMessage != null)
+                {
+            <div class="row success-msg">
+                @Model.ModelUpdateMessage
+            </div>
+        }
+
+
+        <div class="container">
+
+
+            @* ROW 1 *@
+            <div class="row">
+
+                @* COLUMN 1 *@
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Initiate Action</label>
+                        </div>
+
+
+                        <div class="col-md-10 focus">
+                            @Html.DropDownListFor(m => m.current_status_id, 
+                                                  new SelectList(Model.ReferralInitiateActionInDbms, "id", "label"), 
+                                                  "- Please Select -", 
+                                                  new { @id = "initiateaction", onchange = "updateReasonForAction()"})
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Assign To</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.SystemUserId, 
+                                                  new SelectList(Model.ReferralActionAssignedToInDbms, "SystemUserId", "SystemUserFullName"), 
+                                                  "- Please Select -")
+                        </div>
+
+                    </div>
+
+                </div>
+                @* COLUMN 1 END *@
+
+
+                @* COLUMN 2 *@
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Reason For Action</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.referral_pend_reason_id,
+                                                  Enumerable.Empty<SelectListItem>(),
+                                                  "- Please Select",
+                                                  new { @id = "reasonforaction", disabled = true })
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Review Requested By</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.SystemUserId,
+                                                  new SelectList(Model.ReferralReviewRequestedByInDbms, "SystemUserId", "SystemUserFullName"),
+                                                  "- Please Select -",
+                                                  new { @id = "reviewrequestedby", disabled = true })
+                        </div>
+
+                    </div>
+
+                </div>
+                @* COLUMN 2 END *@
+
+            </div>
+            @* ROW 1 END *@
+
+
+
+            @* ROW 2 *@
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-md-10">
+                            <input type="submit" value="Apply Action" class="btn btn-primary" />
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @Html.HiddenFor(m => m.ReferralNumber)
+
+    </div>
+
+}
+
+
+<script type="text/javascript">
+
+    function updateReasonForAction()
+    {
+
+        var actionId = $("#initiateaction").val();
+        var actionlabel = $('#initiateaction option:selected').text();
+
+      jQuery.ajax({
+            url: '@Url.Action("LoadReasonForActions", "MemberProfile")',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ strCurrentStatusId: actionId }),
+            success: function (result)
+            {
+
+                $("#reasonforaction").html("");
+
+
+                if (result != "[]") {                    
+
+                    //create the dropdown items based on the selected Initiate Action item
+                    $.each($.parseJSON(result), function (i, reasonforaction) {
+                        $("#reasonforaction").append
+                            ($('<option></option>').val(reasonforaction.id).html(reasonforaction.label))
+                    })
+
+
+                    $("#reasonforaction").prop("disabled", false);
+
+
+                    //enable/disable the Review Requested By dropdown
+                    if (actionlabel == "MD Review/Determination")
+                    {
+                        $("#reviewrequestedby").prop("disabled", false);
+                    }
+                    else
+                    {
+                        $("#reviewrequestedby").prop("disabled", true);
+                    }
+
+                }
+                else
+                {
+                    $("#reasonforaction").append($('<option></option>').html("- Please Select -"));
+                    $("#reasonforaction").prop("disabled", true);
+                    $("#reviewrequestedby").prop("disabled", true);
+                }
+
+            },
+            failure: function () 
+            {
+                $("#reasonforaction").append($('<option></option>').html("- Please Select -"));
+                $("#reasonforaction").prop("disabled", true);
+                $("#reviewrequestedby").prop("disabled", true);
+            }
+            
+
+            });
+    }
+
+</script>
+
+
+
+
+
+

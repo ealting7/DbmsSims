@@ -1,0 +1,130 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.ReferralViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <h4>Member Referrals:</h4>
+
+            @{
+
+                if (Model != null)
+                {
+
+                    <div class="form-group">
+
+                        @Html.ActionLink("Create New Referral",
+                                         "NewReferral",
+                                         "MemberProfile",
+                                         new { MemId = Model.MemberId },
+                                          new { @class = "btn btn-primary" })
+
+                    </div>
+                }
+            }
+            
+        </div>
+
+    </div>
+
+
+    <div class="row" style="border-top: 2px solid #023763">
+
+        <div class="col">
+
+            <div class="form-group">
+
+                <div class="col">
+
+
+                    @if (Model != null)
+                    {
+
+                        <table class="table">
+
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ref Num</th>
+                                    <th>Auth Num</th>
+                                    <th>Decision</th>
+                                    <th>Type</th>
+                                    <th>Start Date</th>
+                                    <th>Discharge Date</th>
+                                    <th>Refer To Provider</th>
+                                    <th>Refer To Facility</th>
+                                </tr>
+                            </thead>
+
+
+                            @foreach (var referral in Model.referrals)
+                            {
+
+                                <tbody>
+                                    <tr>
+
+                                        <th scope="row">
+                                            @Html.ActionLink("Select", "EditReferralGeneral", "MemberProfile", new { RefNum = referral.ReferralNumber }, null)
+                                        </th>
+
+                                        <td> @referral.ReferralNumber </td>
+
+                                        <td> @referral.AuthNumber </td>
+
+                                        <td> @referral.ReferralDecision </td>
+
+                                        <td> @referral.ReferralType </td>
+
+
+                                        @if (referral.AuthStartDate != null)
+                                        {
+                                            <td> @referral.AuthStartDate.Value.ToString("MM/dd/yyyy") </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+
+                                        @if (referral.AuthEndDate != null)
+                                        {
+                                            <td> @referral.AuthEndDate.Value.ToString("MM/dd/yyyy") </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+
+
+                                        <td> @referral.ReferredToProviderName </td>
+
+                                        <td> @referral.ReferredToDepartmentName </td>
+
+                                    </tr>
+                                </tbody>
+
+                            }
+
+
+                        </table>
+
+                    }
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+

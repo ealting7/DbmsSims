@@ -1,0 +1,228 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.ReferralViewModel
+
+
+@Html.Partial("~/Views/MemberProfile/_ReferralNav.cshtml")
+
+
+
+<div class="container top-bottom-margins">
+
+    @* ROW 1 *@
+    <div class="row">
+
+        @* MEDICAL CODE SEARCH PARTIAL VIEW *@
+        <div class="col-md-12">
+
+            <div id="MedicalCodeSearch">
+
+                @{ 
+
+                    DbmsSims.Models.ICMS2.ViewModels.MedicalCodeSearchViewModel vmForMedSearch = new DbmsSims.Models.ICMS2.ViewModels.MedicalCodeSearchViewModel();
+                    vmForMedSearch.ReferralNumber = Model.ReferralNumber;
+
+                    @Html.Partial("_MedicalCodeSearch", vmForMedSearch,new ViewDataDictionary { { "ReferralNumber", Model.ReferralNumber } })
+
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-12">
+
+            @* ICD 10 *@
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <label>Existing ICD 10 Codes:</label>
+                </div>
+
+                <div class="form-group">
+
+                    @*  PUT REFERRAL DIAGNOSIS CODES HERE *@
+                    @{
+
+                        if (Model.ReferralDiagnosisCodesInDbms.Count.CompareTo(0) > 0)
+                        {
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Code</th>
+                                        <th>Descriptioin</th>
+                                    </tr>
+                                </thead>
+
+                                @foreach (var diag in Model.ReferralDiagnosisCodesInDbms)
+                                {
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                @Html.ActionLink("Remove", "RemoveCodeFromReferral", "MemberProfile", new { CodeType = "diag", Id = diag.SelectedSearchItemCodeId, ReferralNumber = Model.ReferralNumber }, null)
+                                            </th>
+
+                                            <td> @diag.Code </td>
+
+                                            <td> @diag.SearchReturnShortDescription </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                }
+
+                            </table>
+
+                        }
+                        else
+                        {
+                            <div>No Diagnosis Codes Attached To Referral</div>
+                        }
+
+                    }
+
+
+                </div>
+
+            </div>
+
+
+            @* CPT *@
+            <div class="col-md-12">
+
+                <div class="form-group border-top-divider">
+                    <label>Existing CPT Codes:</label>
+                </div>
+
+                <div class="form-group">
+
+                    @*  PUT REFERRAL CPT CODES HERE *@
+                    @{
+
+                        if (Model.ReferralCptCodesInDbms.Count.CompareTo(0) > 0)
+                        {
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Code</th>
+                                        <th>Descriptioin</th>
+                                    </tr>
+                                </thead>
+
+                                @foreach (var cpt in Model.ReferralCptCodesInDbms)
+                                {
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                @Html.ActionLink("Remove", "RemoveCodeFromReferral", "MemberProfile", new { CodeType = "cpt", Id = cpt.SelectedSearchItemCodeId, ReferralNumber = Model.ReferralNumber }, null)
+                                            </th>
+
+                                            <td> @cpt.Code </td>
+
+                                            <td> @cpt.SearchReturnShortDescription </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                }
+
+                            </table>
+
+                        }
+                        else
+                        {
+                            <div>No CPT Codes Attached To Referral</div>
+                        }
+
+                    }
+
+
+                </div>
+
+            </div>
+
+
+            @* HCPCS *@
+            <div class="col-md-12">
+
+                <div class="form-group border-top-divider">
+                    <label>Existing HCPCS Codes:</label>
+                </div>
+
+                <div class="form-group">
+
+
+                    @*  PUT REFERRAL HCPCS CODES HERE *@
+                    @{
+
+                        if (Model.ReferralHcpcsCodesInDbms.Count.CompareTo(0) > 0)
+                        {
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Code</th>
+                                        <th>Descriptioin</th>
+                                    </tr>
+                                </thead>
+
+                                @foreach (var hcpcs in Model.ReferralHcpcsCodesInDbms)
+                                {
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                @Html.ActionLink("Remove", "RemoveCodeFromReferral", "MemberProfile", new { CodeType = "hcpcs", Id = hcpcs.SelectedSearchItemCodeId, ReferralNumber = Model.ReferralNumber }, null)
+                                            </th>
+
+                                            <td> @hcpcs.Code </td>
+
+                                            <td> @hcpcs.SearchReturnShortDescription </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                }
+
+                            </table>
+
+                        }
+                        else
+                        {
+                            <div>No HCPCS Codes Attached To Referral</div>
+                        }
+
+                    }
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    @* ROW 1 END *@
+
+
+
+    @Html.HiddenFor(m => m.ReferralNumber)
+
+</div>
+
+
+
+
+
+
+
+
+
+
+

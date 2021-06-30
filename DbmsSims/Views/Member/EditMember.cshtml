@@ -1,0 +1,329 @@
+﻿@model DbmsSims.Models.ICMS2.EditMemberViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("EditMember", "Member", FormMethod.Post))
+{
+
+
+
+    
+    if (ViewData["Message"] != null)
+    {
+        <div class="col success-msg">
+            @ViewData["Message"]
+        </div>
+    }
+
+
+    @* ROW 2 *@
+    <div class="row">
+
+        @* COLUMN 1 *@
+        <div class="col-md-6">
+
+            @* first name *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>*First</label>
+                </div>
+
+                <div class="col-md-10 focus">
+                    @Html.TextBoxFor(m => m.MemberFirstName)
+                    @Html.ValidationMessageFor(m => m.MemberFirstName, "", new { @class = "help-block" })
+                </div>
+
+            </div>
+
+
+
+            @* middle name *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>Middle</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.MemberMiddleName)
+                    @Html.ValidationMessageFor(m => m.MemberMiddleName, "", new { @class = "help-block" })
+                </div>
+
+            </div>
+
+
+            @* last name *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>*Last</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.MemberLastName)
+                    @Html.ValidationMessageFor(m => m.MemberLastName, "", new { @class = "help-block" })
+                </div>
+
+            </div>
+
+
+            @* date of birth *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>*Date Of Birth</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.MemberBirth, "{0:MM/dd/yyyy}",null)
+                    @Html.ValidationMessageFor(m => m.MemberBirth, "", new { @class = "help-block" })
+                </div>
+
+            </div>
+
+
+            @* gender *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+
+                    @if (Model.Gender.Equals("M"))
+                    {
+                        @Html.RadioButtonFor(m => m.Gender, false, new { id = "male_true", @checked="true" })
+                        <label for="male_true">Male</label>
+                        @Html.RadioButtonFor(m => m.Gender, false, new { id = "female_true" })
+                        <label for="female_true">Female</label>
+                    }
+                    else
+                    {
+                        @Html.RadioButtonFor(m => m.Gender, false, new { id = "male_true" })
+                        <label for="male_true">Male</label>
+                        @Html.RadioButtonFor(m => m.Gender, false, new { id = "female_true", @checked = "true" })
+                        <label for="female_true">Female</label>
+                    }
+
+                </div>
+
+
+                <div class="col-md-10">
+
+                </div>
+
+            </div>
+
+
+            @* ssn *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>*SSN</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.MemberSsn)
+                    @Html.ValidationMessageFor(m => m.MemberSsn, "", new { @class = "help-block" })
+                </div>
+
+            </div>
+
+
+            @* member id (claims id) *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>Member ID</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.ClaimsId)
+                    @Html.ValidationMessageFor(m => m.ClaimsId, "", new { @class = "help-block" })
+                </div>
+
+            </div>
+
+
+            @*medicare number*@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>Medicare Number</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.MedicareNumber)
+                </div>
+
+            </div>
+
+
+            @* medicaid number *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>Medicaid Number</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.MedicaidNumber)
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        @* COLUMN 2 *@
+        <div class="col-md-6">
+
+            @* address 1 *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>Address</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Address1)
+                </div>
+
+            </div>
+
+
+            @* address 2 *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>Address Cont.</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Address2)
+                </div>
+
+            </div>
+
+
+            @*city*@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>City</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.City)
+                </div>
+
+            </div>
+
+
+            @* state *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>State</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.state_abbrev, new SelectList(Model.StatesInUsa, "state_abbrev", "state_name"), "- Please Select -")
+                </div>
+
+            </div>
+
+
+            @* zip code *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>Zip Code</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.ZipCode)
+                </div>
+
+            </div>
+
+
+            @*day phone*@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>Day Phone</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.DayPhone)
+                </div>
+
+            </div>
+
+
+            @* evening phone *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>Evening Phone</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.EveningPhone)
+                </div>
+
+            </div>
+
+
+            @* employer *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label>*Employer</label>
+                </div>
+
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.EmployerId, new SelectList(Model.EmployersInDbms, "employer_id", "employer_name"), "- Please Select -")
+                    @Html.ValidationMessageFor(m => m.EmployerId, "", new { @class = "help-block" })
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    @Html.HiddenFor(m => m.MemberId)
+
+    @* ROW 3 *@
+    <div class="row">
+
+        <div class="col-md-6">
+
+            @* add/update button *@
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    &nbsp;
+                </div>
+
+                <div class="col-md-10">
+                    <input type="submit" value="Update" class="btn btn-primary" />
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+  
+}
+
+
+

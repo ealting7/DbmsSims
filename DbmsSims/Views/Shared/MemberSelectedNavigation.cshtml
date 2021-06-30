@@ -1,0 +1,94 @@
+﻿@model  DbmsSims.Models.SelectedMemberNavigation
+
+
+@if (Model.MemberSelected)
+{ 
+
+
+    <div class="nav-side-menu">
+
+        <div class="brand collapse">MEMBER</div>
+
+        <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+
+        <div class="menu-list">
+
+            <ul id="menu-content" class="menu-content collapse out">
+
+                <li>
+                    <a href="#">
+                        <i class="fa fa-dashboard fa-lg"></i>@(Model.FirstName  + " " + @Model.LastName)                         
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <i class="fa fa-dashboard fa-lg"></i>DOB: @(Model.DateOfBirth)
+                    </a>
+                </li>
+
+
+
+                @* MEMBER NOTES SECTION *@
+                <li data-toggle="collapse" data-target="#products" class="collapsed active">
+                    <a href="#"><i class="fa fa-gift fa-lg"></i> Notes <span class="arrow"></span></a>
+                </li>
+
+                    <ul class="sub-menu collapse" id="products">
+                        <li class="active">@Html.ActionLink("Member", "Notes", "MemberProfile", new { type = "Member", id = Model.CurrentlySelectedMemberId }, null)</li>
+                        <li>@Html.ActionLink("UM", "Notes", "MemberProfile", new { type = "UM", id = Model.CurrentlySelectedMemberId }, null)</li>
+                        <li>@Html.ActionLink("DM", "Notes", "MemberProfile", new { type = "DM", id = Model.CurrentlySelectedMemberId }, null)</li>
+                        <li>@Html.ActionLink("STD", "Notes", "MemberProfile", new { type = "STD", id = Model.CurrentlySelectedMemberId }, null)</li>
+                        <li>@Html.ActionLink("Client", "Notes", "MemberProfile", new { type = "Client", id = Model.CurrentlySelectedMemberId }, null)</li>
+                        <li>@Html.ActionLink("Wellness (Telephone)", "Notes", "MemberProfile", new { type = "Wellness", id = Model.CurrentlySelectedMemberId }, null)</li>
+                        <li>@Html.ActionLink("Patient", "Notes", "MemberProfile", new { type = "Patient", id = Model.CurrentlySelectedMemberId }, null)</li>
+                        <li>@Html.ActionLink("Radiology", "Notes", "MemberProfile", new { type = "Radiology", id = Model.CurrentlySelectedMemberId }, null)</li>
+                        <li>@Html.ActionLink("Labs", "Notes", "MemberProfile", new { type = "Labs", id = Model.CurrentlySelectedMemberId }, null)</li>
+                        <li>@Html.ActionLink("Care Plan", "Notes", "MemberProfile", new { type = "Care", id = Model.CurrentlySelectedMemberId }, null)</li>
+                    </ul>
+
+
+
+
+                @* CM SECTION *@
+                <li data-toggle="collapse" data-target="#service" class="collapsed">
+                    <a href="#"><i class="fa fa-globe fa-lg"></i> CM <span class="arrow"></span></a>
+                </li>
+
+
+                    <ul class="sub-menu collapse" id="service">
+                        <li>LCM Info</li>
+                    </ul>
+
+
+
+                @* UM SECTION *@
+                <li data-toggle="collapse" data-target="#new" class="collapsed">
+                    <a href="#"><i class="fa fa-car fa-lg"></i> UM <span class="arrow"></span></a>
+                </li>
+
+                    <ul class="sub-menu collapse" id="new">
+                        <li>@Html.ActionLink("Refs/Auth/Precerts", "ReferralSelect", "MemberProfile", new { id = Model.CurrentlySelectedMemberId }, null)</li>
+                    </ul>
+
+
+                @* DEMOGRAPHICS *@
+                <li>
+                    <a href="#">
+                        <i class="fa fa-user fa-lg"></i> Demographics
+                    </a>
+                </li>
+
+
+                @* MEDICATIONS *@
+                <li>
+                    <a href="#">
+                        <i class="fa fa-users fa-lg"></i> Medications
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+}

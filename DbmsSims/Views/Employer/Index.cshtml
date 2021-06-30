@@ -1,0 +1,464 @@
+﻿@model DbmsSims.Models.ICMS2.Employer
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Employer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.employer_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employer_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DBA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DBA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employer_web_site_url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employer_web_site_url)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employer_code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employer_code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employer_tax_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employer_tax_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.active_flag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.active_flag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.user_updated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.user_updated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_updated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_updated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employer_email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employer_email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.rptperiod_schedule)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rptperiod_schedule)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.percent_savings)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.percent_savings)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.num_of_employees)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.num_of_employees)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.business_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.business_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employer_parent_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employer_parent_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lcm_billable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lcm_billable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lcm_billing_rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lcm_billing_rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lcm_bill_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lcm_bill_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.create_data_mined_claim_tasks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.create_data_mined_claim_tasks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.std_billable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.std_billable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.std_billing_rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.std_billing_rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.std_bill_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.std_bill_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.wc_billable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.wc_billable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.wc_billing_rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.wc_billing_rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.wc_bill_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.wc_bill_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.use_employer_logo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.use_employer_logo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cr_physician_review_rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cr_physician_review_rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cr_nurse_review_rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cr_nurse_review_rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cr_other_markup_percent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cr_other_markup_percent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.std_flat_rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.std_flat_rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.std_flat_rate_billing)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.std_flat_rate_billing)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.uses_consult_a_doc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uses_consult_a_doc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.um_billable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.um_billable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.um_billing_rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.um_billing_rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.um_bill_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.um_bill_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.um_bill_count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.um_bill_count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.uses_medicare_part_a)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uses_medicare_part_a)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.uses_medicare_part_b)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uses_medicare_part_b)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.uses_medicare_part_d)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uses_medicare_part_d)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lastupdate_userid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lastupdate_userid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lastupdate_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lastupdate_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.is_test_employer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.is_test_employer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.incentive_eligible)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.incentive_eligible)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dm_manager_user_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dm_manager_user_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cm_manager_user_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cm_manager_user_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.incentive_employer_reason_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.incentive_employer_reason_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dm_billable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dm_billable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dm_billing_rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dm_billing_rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dm_bill_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dm_bill_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ccm_billable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ccm_billable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ccm_billing_rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ccm_billing_rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ccm_bill_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ccm_bill_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ccm_bill_count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ccm_bill_count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.care_coordination_billable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.care_coordination_billable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.care_coordination_billing_rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.care_coordination_billing_rate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.um_bill_popup_for_no_um)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.um_bill_popup_for_no_um)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.um_24_7_rn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.um_24_7_rn)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.employer_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

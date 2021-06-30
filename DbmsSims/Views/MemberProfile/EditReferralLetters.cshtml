@@ -1,0 +1,125 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.ReferralLetterViewModel
+
+
+@Html.Partial("~/Views/MemberProfile/_ReferralNav.cshtml",
+              new DbmsSims.Models.ICMS2.ViewModels.ReferralViewModel { ReferralNumber = Model.ReferralNumber, AuthNumber = Model.AuthNumber })
+
+
+<div class="top-bottom-margins">
+
+    <div class="container">
+
+        <div class="row">
+            <span class="lblDarkBlue">
+                Decision: 
+                @Html.LabelForModel(Model.ReferralDecision)
+            </span>
+        </div>
+
+
+
+        @* ROW START *@
+        <div class="row">
+
+            @* generate letter button*@
+            <div class="form-group">
+
+
+                @Html.ActionLink("Generate Letter(s)",
+                                         "GenerateReferralLetter",
+                                         "MemberProfile",
+                                         new { MemId = Model.MemberId, RefNum = Model.ReferralNumber },
+                                         new { @class = "btn btn-primary", target = "_blank" })
+
+
+            </div>
+
+        </div>
+
+
+        <div class="row border-top-divider-1px">
+            <h4>Existing Letter(s):</h4>
+        </div>
+
+        @* ROW START *@
+        <div class="row">
+
+            <div class="form-group">
+
+                @*  PUT REFERRAL LETTERS HERE *@
+                @{
+
+                    if (Model.LettersInReferral.Count.CompareTo(0) > 0)
+                    {
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Created Date</th>
+                                    <th>File Name</th>
+                                </tr>
+                            </thead>
+
+                            @foreach (var reflettr in Model.LettersInReferral)
+                            {
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            @Html.ActionLink("View", "ViewReferralLetter", "MemberProfile", new { Id = reflettr.Id}, new { target = "_blank" })
+                                        </th>
+
+                                        <td> @reflettr.LetterCreatedDate.Value.ToShortDateString() </td>
+
+                                        <td> @reflettr.FileName </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            }
+
+                        </table>
+
+                    }
+                    else
+                    {
+                        <div>No Letters Generated For Referral</div>
+                    }
+
+                }
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@Html.HiddenFor(m => m.ReferralNumber, new { @id = "hdeRefNum" })
+@Html.HiddenFor(m => m.MemberId, new { @id = "hdeMemId" })
+
+
+<script type="text/javascript">
+
+    ////called with the Add Utilization button is clicked
+    //$(document).on("click", '#btnGenerateLetter', function (e) {
+
+    //    var refnum = $("#hdeRefNum").val();
+    //    var memid = $("#hdeMemId").val();
+
+
+    //    $.post('/MemberProfile/GenerateReferralLetter',
+    //            { MemID: memid, RefNum: refnum },
+    //            function (returnedData) {
+
+    //            }
+    //          ); 
+
+    //})
+
+</script>
+

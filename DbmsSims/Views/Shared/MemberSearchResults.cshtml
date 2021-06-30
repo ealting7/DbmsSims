@@ -1,0 +1,72 @@
+﻿@model DbmsSims.Models.ICMS2.EditMemberViewModel
+
+
+
+@using (Html.BeginForm("EditMember", "Member", new { MemberId = Model.MemberId }, FormMethod.Post))
+{
+
+    <h4>Member Search Results:</h4> 
+
+
+    if (Model != null)
+    {
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First</th>
+                    <th>Middle</th>
+                    <th>Last</th>                    
+                    <th>DOB</th>
+                    <th>Member ID</th>
+                    <th>Employer</th>
+                </tr>
+            </thead>
+
+
+
+            @foreach (var member in Model.MemberSearchResultList)
+            {
+
+
+                <tbody>
+                    <tr>
+                        <th scope = "row"> 
+                            @Html.ActionLink("Select", "EditMember", "Member", new { MemberId = member.MemberId }, null)                           
+                        </th>
+
+
+                            <td> @member.MemberFirstName </td>
+
+
+                            <td> @member.MemberMiddleName </td>
+
+
+                            <td> @member.MemberLastName </td>
+
+
+                            <td> @member.MemberBirth.Value.ToString("MM/dd/yyyy") </td>
+
+
+                            <td>@member.ClaimsId</td>
+
+
+                            <td> @member.EmployerName </td>
+
+
+                     </tr>
+
+                </tbody>
+
+
+
+            }
+
+
+        </table>
+
+    }
+
+
+}

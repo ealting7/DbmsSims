@@ -1,0 +1,813 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{920CC24E-962C-46CE-A672-528838614974}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DbmsSims</RootNamespace>
+    <AssemblyName>DbmsSims</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ADODB, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\..\Windows\assembly\GAC\ADODB\7.0.3300.0__b03f5f7f11d50a3a\ADODB.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Web, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MSDATASRC1">
+      <HintPath>..\..\..\Windows\assembly\GAC\MSDATASRC\7.0.3300.0__b03f5f7f11d50a3a\MSDATASRC.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Billing\BillingController.cs" />
+    <Compile Include="Controllers\Downloads\DownloadsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ICMS\Employer\EmployerController.cs" />
+    <Compile Include="Controllers\ICMS\Member\MemberController.cs" />
+    <Compile Include="Controllers\ICMS\MemberProfile\MemberProfileController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709281912076_initialcommit.cs" />
+    <Compile Include="Migrations\201709281912076_initialcommit.Designer.cs">
+      <DependentUpon>201709281912076_initialcommit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709282005312_ChangedAspnetuserTableToDbmssimsuser.cs" />
+    <Compile Include="Migrations\201709282005312_ChangedAspnetuserTableToDbmssimsuser.Designer.cs">
+      <DependentUpon>201709282005312_ChangedAspnetuserTableToDbmssimsuser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Billing\ViewModels\BillingViewModel.cs" />
+    <Compile Include="Models\Downloads\ViewModels\ClaimViewModel.cs" />
+    <Compile Include="Models\Downloads\ViewModels\DownloadsViewModel.cs" />
+    <Compile Include="Models\Downloads\ViewModels\EligibilityViewModel.cs" />
+    <Compile Include="Models\ICMS2\AccountsReceivablePayments.cs" />
+    <Compile Include="Models\ICMS2\Admission.cs" />
+    <Compile Include="Models\ICMS2\BillingUpdateHistoryLog.cs" />
+    <Compile Include="Models\ICMS2\CarePlanNotesAttachment.cs" />
+    <Compile Include="Models\ICMS2\CaseOwner.cs" />
+    <Compile Include="Models\ICMS2\ClaimsId.cs" />
+    <Compile Include="Models\ICMS2\ClientBuEmployer.cs" />
+    <Compile Include="Models\ICMS2\ClientBu.cs" />
+    <Compile Include="Models\ICMS2\ClinicalReviewBills.cs" />
+    <Compile Include="Models\ICMS2\ClinicalRequestHistory.cs" />
+    <Compile Include="Models\ICMS2\ClinicalRequestProviders.cs" />
+    <Compile Include="Models\ICMS2\CmMemberNote.cs" />
+    <Compile Include="Models\ICMS2\CodeRemovalItems.cs" />
+    <Compile Include="Models\ICMS2\CptCodes2015.cs" />
+    <Compile Include="Models\ICMS2\DbmsIcmsSimsUserSearch.cs" />
+    <Compile Include="Models\ICMS2\DependentMemberUpdateReference.cs" />
+    <Compile Include="Models\ICMS2\DiagnosisCodes10.cs" />
+    <Compile Include="Models\ICMS2\DiseaseManagementNotesAttachment.cs" />
+    <Compile Include="Models\ICMS2\DmMemberSavings.cs" />
+    <Compile Include="Models\ICMS2\EmailsOutbound.cs" />
+    <Compile Include="Models\ICMS2\Employer.cs" />
+    <Compile Include="Models\ICMS2\EpisodesOfCare.cs" />
+    <Compile Include="Models\ICMS2\FacilityAddress.cs" />
+    <Compile Include="Models\ICMS2\HcpcsCodes2015.cs" />
+    <Compile Include="Models\ICMS2\ICMS2DbContext.cs" />
+    <Compile Include="Models\ICMS2\IcmsIssue.cs" />
+    <Compile Include="Models\ICMS2\IcmsMember.cs" />
+    <Compile Include="Models\ICMS2\BillingCodes.cs" />
+    <Compile Include="Models\ICMS2\LcmReportNeededForBillingTask.cs" />
+    <Compile Include="Models\ICMS2\LcmReportQaNotesTaskReference.cs" />
+    <Compile Include="Models\ICMS2\LcmReportQaTasks.cs" />
+    <Compile Include="Models\ICMS2\LcmReportQaNotes.cs" />
+    <Compile Include="Models\ICMS2\LcnReportFax.cs" />
+    <Compile Include="Models\ICMS2\LetterReportFax.cs" />
+    <Compile Include="Models\ICMS2\MdReviewRequest.cs" />
+    <Compile Include="Models\ICMS2\MdReviewQuestion.cs" />
+    <Compile Include="Models\ICMS2\MdReviewDetermination.cs" />
+    <Compile Include="Models\ICMS2\MdReviewFollowup.cs" />
+    <Compile Include="Models\ICMS2\MemberAddress.cs" />
+    <Compile Include="Models\ICMS2\MemberEnrollment.cs" />
+    <Compile Include="Models\ICMS2\MemberNotes.cs" />
+    <Compile Include="Models\ICMS2\MemberUpdateReference.cs" />
+    <Compile Include="Models\ICMS2\MemberLcmInitial.cs" />
+    <Compile Include="Models\ICMS2\MemberLcmFollowup.cs" />
+    <Compile Include="Models\ICMS2\MemberNotesAttachment.cs" />
+    <Compile Include="Models\ICMS2\MemberLcmActivity.cs" />
+    <Compile Include="Models\ICMS2\MemberLcmFollowupSavings.cs" />
+    <Compile Include="Models\ICMS2\MemberMdReviewReference.cs" />
+    <Compile Include="Models\ICMS2\MemberAddressDmAlternate.cs" />
+    <Compile Include="Models\ICMS2\MemberMedsAllergies.cs" />
+    <Compile Include="Models\ICMS2\MemberVitals.cs" />
+    <Compile Include="Models\ICMS2\MemberLab.cs" />
+    <Compile Include="Models\ICMS2\MemberToolProgramStatus.cs" />
+    <Compile Include="Models\ICMS2\MemberStratLevel.cs" />
+    <Compile Include="Models\ICMS2\MemberTask.cs" />
+    <Compile Include="Models\ICMS2\MemberHealthPlanReference.cs" />
+    <Compile Include="Models\ICMS2\MemberCustomerServiceAlert.cs" />
+    <Compile Include="Models\ICMS2\MemberMedsPharmacyFeed.cs" />
+    <Compile Include="Models\ICMS2\MemberPcp.cs" />
+    <Compile Include="Models\ICMS2\MemberNotesSummary.cs" />
+    <Compile Include="Models\ICMS2\MemberCareCoordinationCall.cs" />
+    <Compile Include="Models\ICMS2\MemberCareCoordinationCallSavings.cs" />
+    <Compile Include="Models\ICMS2\MemberClaimsDiagnosis.cs" />
+    <Compile Include="Models\ICMS2\MemberConditionAcuity.cs" />
+    <Compile Include="Models\ICMS2\MemberLcmFollowupNotes.cs" />
+    <Compile Include="Models\ICMS2\MemberMeds.cs" />
+    <Compile Include="Models\ICMS2\MemberMedsHighDollarTask.cs" />
+    <Compile Include="Models\ICMS2\MemberMedsHistory.cs" />
+    <Compile Include="Models\ICMS2\MemberPictures.cs" />
+    <Compile Include="Models\ICMS2\MemberProfilePicture.cs" />
+    <Compile Include="Models\ICMS2\MemberProgram.cs" />
+    <Compile Include="Models\ICMS2\MemberRelativeDiseaseHistory.cs" />
+    <Compile Include="Models\ICMS2\MemberRenalTask.cs" />
+    <Compile Include="Models\ICMS2\MemberReturnedLetters.cs" />
+    <Compile Include="Models\ICMS2\MemberSignatureFile.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberReference.cs" />
+    <Compile Include="Models\ICMS2\MergedrMemberReferralCpts.cs" />
+    <Compile Include="Models\ICMS2\MergedrMemberReferralDiags.cs" />
+    <Compile Include="Models\ICMS2\MergedrMemberReferralHcpcs.cs" />
+    <Compile Include="Models\ICMS2\MergedrMemberReferralInterqualReference.cs" />
+    <Compile Include="Models\ICMS2\MergedrMemberReferralLetters.cs" />
+    <Compile Include="Models\ICMS2\MergedrReferralMissingReferTo.cs" />
+    <Compile Include="Models\ICMS2\MergedrMemberReferralWorkflow.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberAddressDmAlternate.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberAddress.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberCareCoordinationCall.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberConditionAcuity.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberCustomerServiceAlert.cs" />
+    <Compile Include="Models\ICMS2\MergedrInboundFax.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberHealthPlanReference.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberLab.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberLcmFollowupNotes.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberMdReviewReference.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberMedsAllergies.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberMeds.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberMedsHighDollarTask.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberMedsHistory.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberMedsPharmacyFeed.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberNotesAttachment.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberNotes.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberNotesSummary.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberPcp.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberPhone.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberPictures.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberProfilePicture.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberProgram.cs" />
+    <Compile Include="Models\ICMS2\MergedrQualityCareNotes.cs" />
+    <Compile Include="Models\ICMS2\MergedrMemberReferralMedicine.cs" />
+    <Compile Include="Models\ICMS2\MergedrMemberReferralQoc.cs" />
+    <Compile Include="Models\ICMS2\MergedrMemberReferralUpdatesWorkflow.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberRelativeDiseaseHistory.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberRenalTask.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberReturnedLetters.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberSignatureFile.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberStratLevel.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberTask.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberToolProgramStatus.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberUpdateReference.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberVitals.cs" />
+    <Compile Include="Models\ICMS2\MergedrUtilizationDaysNotes.cs" />
+    <Compile Include="Models\ICMS2\MergedrUtilizationDays.cs" />
+    <Compile Include="Models\ICMS2\MergedrUtilizationDischargeNote.cs" />
+    <Compile Include="Models\ICMS2\MergedrUtilizationReviews.cs" />
+    <Compile Include="Models\ICMS2\MergedrUtilizationSavings.cs" />
+    <Compile Include="Models\ICMS2\MergedAccountsReceivablePayments.cs" />
+    <Compile Include="Models\ICMS2\MergedrAdmissionCareplanCount.cs" />
+    <Compile Include="Models\ICMS2\MergedAdmission.cs" />
+    <Compile Include="Models\ICMS2\MergedrAuthorizationUpdates.cs" />
+    <Compile Include="Models\ICMS2\MergedBillingUpdateHistoryLog.cs" />
+    <Compile Include="Models\ICMS2\MergedCarePlanNotesAttachment.cs" />
+    <Compile Include="Models\ICMS2\MergedCaseOwner.cs" />
+    <Compile Include="Models\ICMS2\MergedClinicalRequestHistory.cs" />
+    <Compile Include="Models\ICMS2\MergedClinicalRequestProviders.cs" />
+    <Compile Include="Models\ICMS2\MergedCmMemberNote.cs" />
+    <Compile Include="Models\ICMS2\MergedClinicalReviewBills.cs" />
+    <Compile Include="Models\ICMS2\MergedCodeRemovalItems.cs" />
+    <Compile Include="Models\ICMS2\MergedrDentalVisits.cs" />
+    <Compile Include="Models\ICMS2\MergedrDepartmentBedVacancy.cs" />
+    <Compile Include="Models\ICMS2\MergedDependentMemberUpdateReference.cs" />
+    <Compile Include="Models\ICMS2\MergedDiseaseManagementNotesAttachment.cs" />
+    <Compile Include="Models\ICMS2\MergedDmMemberSavings.cs" />
+    <Compile Include="Models\ICMS2\MergedEmailsOutbound.cs" />
+    <Compile Include="Models\ICMS2\MergedEpisodesOfCare.cs" />
+    <Compile Include="Models\ICMS2\MergedrInboundFaxReferralRemoval.cs" />
+    <Compile Include="Models\ICMS2\MergedrInboundVoicemail.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberLcmInitial.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberLcmActivity.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberLcmFollowupSavings.cs" />
+    <Compile Include="Models\ICMS2\MergedLcmReportNeededForBillingTask.cs" />
+    <Compile Include="Models\ICMS2\MergedLcmReportQaNotes.cs" />
+    <Compile Include="Models\ICMS2\MergedLcmReportQaTasks.cs" />
+    <Compile Include="Models\ICMS2\MergedLcmReportQaNotesTaskReference.cs" />
+    <Compile Include="Models\ICMS2\MergedLcnReportFax.cs" />
+    <Compile Include="Models\ICMS2\MergedLetterReportFax.cs" />
+    <Compile Include="Models\ICMS2\MergedMdReviewDetermination.cs" />
+    <Compile Include="Models\ICMS2\MergedMdReviewFollowup.cs" />
+    <Compile Include="Models\ICMS2\MergedMdReviewQuestion.cs" />
+    <Compile Include="Models\ICMS2\MergedMdReviewRequest.cs" />
+    <Compile Include="Models\ICMS2\MergedMonthlyLcmManagementQa.cs" />
+    <Compile Include="Models\ICMS2\MergedMonthlyUtilizationManagement.cs" />
+    <Compile Include="Models\ICMS2\MergedSuspendCaseToTaskReference.cs" />
+    <Compile Include="Models\ICMS2\MergedSuspendedNotesOverride.cs" />
+    <Compile Include="Models\ICMS2\MergedTelephoneNotesAttachment.cs" />
+    <Compile Include="Models\ICMS2\MergedTransitionalCareReference.cs" />
+    <Compile Include="Models\ICMS2\MergedUmAssignedToTask.cs" />
+    <Compile Include="Models\ICMS2\MergedUmAssignedToTaskTouchedReference.cs" />
+    <Compile Include="Models\ICMS2\MergedUmAutoApprovedDiagnosisTask.cs" />
+    <Compile Include="Models\ICMS2\MergedUtilizationReviewNoteTask.cs" />
+    <Compile Include="Models\ICMS2\MergedWebClientNoteTask.cs" />
+    <Compile Include="Models\ICMS2\MergedWebOnlinePrecertTask.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberCareCoordinationCallSavings.cs" />
+    <Compile Include="Models\ICMS2\MergerMemberReferral.cs" />
+    <Compile Include="Models\ICMS2\MergedMemberClaimsDiagnosis.cs" />
+    <Compile Include="Models\ICMS2\Minutes.cs" />
+    <Compile Include="Models\ICMS2\MonthlyLcmManagementQa.cs" />
+    <Compile Include="Models\ICMS2\MonthlyUtilizationManagement.cs" />
+    <Compile Include="Models\ICMS2\Networks.cs" />
+    <Compile Include="Models\ICMS2\PcpTable.cs" />
+    <Compile Include="Models\ICMS2\ProviderAddress.cs" />
+    <Compile Include="Models\ICMS2\ReportDownloadAdmin.cs" />
+    <Compile Include="Models\ICMS2\ReportDownloadAdminFileDownloads.cs" />
+    <Compile Include="Models\ICMS2\ReviewTypeItems.cs" />
+    <Compile Include="Models\ICMS2\rUtilizationDayNotes.cs" />
+    <Compile Include="Models\ICMS2\rMemberReferral.cs" />
+    <Compile Include="Models\ICMS2\rVendor.cs" />
+    <Compile Include="Models\ICMS2\rDepartment.cs" />
+    <Compile Include="Models\ICMS2\rReferralDecisions.cs" />
+    <Compile Include="Models\ICMS2\rReferralType.cs" />
+    <Compile Include="Models\ICMS2\rReferralContext.cs" />
+    <Compile Include="Models\ICMS2\rLocationPos.cs" />
+    <Compile Include="Models\ICMS2\rReferralCategory.cs" />
+    <Compile Include="Models\ICMS2\rMemberReferralWorkflow.cs" />
+    <Compile Include="Models\ICMS2\rCurrentStatus.cs" />
+    <Compile Include="Models\ICMS2\rReferralPendReason.cs" />
+    <Compile Include="Models\ICMS2\rMemberReferralDiags.cs" />
+    <Compile Include="Models\ICMS2\rMemberReferralCpts.cs" />
+    <Compile Include="Models\ICMS2\rMemberReferralHcpcs.cs" />
+    <Compile Include="Models\ICMS2\rBedDayType.cs" />
+    <Compile Include="Models\ICMS2\rUtilizationDaysDecision.cs" />
+    <Compile Include="Models\ICMS2\rDenialReason.cs" />
+    <Compile Include="Models\ICMS2\rUtilizationDays.cs" />
+    <Compile Include="Models\ICMS2\rUtilizationReviews.cs" />
+    <Compile Include="Models\ICMS2\rUtilizationVisitPeriod.cs" />
+    <Compile Include="Models\ICMS2\rMemberReferralLetters.cs" />
+    <Compile Include="Models\ICMS2\rUtilizationSavings.cs" />
+    <Compile Include="Models\ICMS2\rSavingsUnits.cs" />
+    <Compile Include="Models\ICMS2\rMemberReferralInterqualReference.cs" />
+    <Compile Include="Models\ICMS2\rInboundFax.cs" />
+    <Compile Include="Models\ICMS2\rQualityCareNotes.cs" />
+    <Compile Include="Models\ICMS2\rReferralMissingReferTo.cs" />
+    <Compile Include="Models\ICMS2\rAdmissionCareplanCount.cs" />
+    <Compile Include="Models\ICMS2\rAuthorizationUpdates.cs" />
+    <Compile Include="Models\ICMS2\rDentalVisits.cs" />
+    <Compile Include="Models\ICMS2\rDepartmentBedVacancy.cs" />
+    <Compile Include="Models\ICMS2\rInboundFaxHistory.cs" />
+    <Compile Include="Models\ICMS2\rInboundFaxReferralRemoval.cs" />
+    <Compile Include="Models\ICMS2\rInboundVoicemail.cs" />
+    <Compile Include="Models\ICMS2\rMemberReferralMedicine.cs" />
+    <Compile Include="Models\ICMS2\rMemberReferralQoc.cs" />
+    <Compile Include="Models\ICMS2\rMemberReferralUpdatesWorkflow.cs" />
+    <Compile Include="Models\ICMS2\rUtilizationDischargeNote.cs" />
+    <Compile Include="Models\ICMS2\States.cs" />
+    <Compile Include="Models\ICMS2\SuspendCaseToTaskReference.cs" />
+    <Compile Include="Models\ICMS2\SuspendedNotes.cs" />
+    <Compile Include="Models\ICMS2\SuspendedNotesOverride.cs" />
+    <Compile Include="Models\ICMS2\SystemUser.cs" />
+    <Compile Include="Models\ICMS2\SystemUserRole.cs" />
+    <Compile Include="Models\ICMS2\TelephoneNotesAttachment.cs" />
+    <Compile Include="Models\ICMS2\Tpas.cs" />
+    <Compile Include="Models\ICMS2\TpaEmployer.cs" />
+    <Compile Include="Models\ICMS2\TransitionalCareReference.cs" />
+    <Compile Include="Models\ICMS2\UmNotesAttachment.cs" />
+    <Compile Include="Models\ICMS2\UmAssignedToTask.cs" />
+    <Compile Include="Models\ICMS2\UmAssignedToTaskTouchedReference.cs" />
+    <Compile Include="Models\ICMS2\UmAutoApprovedDiagnosisTask.cs" />
+    <Compile Include="Models\ICMS2\UtilizationReviewNoteTask.cs" />
+    <Compile Include="Models\ICMS2\VendorAddress.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\AddMemberViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\EditMemberViewModel.cs" />
+    <Compile Include="Models\ICMS2\MemberPhone.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\FacilitySearchViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\MedicalCodeSearchViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\NotesViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\ProviderSearchViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\ReferralLetterViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\ReferralRefersViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\ReferralRequestViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\ReferralSavingsViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\ReferralViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\SystemUserViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\UtilizationInpatientDayViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\UtilizationOutpatientDayViewModel.cs" />
+    <Compile Include="Models\ICMS2\ViewModels\VendorSearchViewModel.cs" />
+    <Compile Include="Models\ICMS2\WebClientNoteTask.cs" />
+    <Compile Include="Models\ICMS2\WebOnlinePrecertTask.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\BillingBackup.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\CrBillingWorktable.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\IcmsDataStagingDbContext.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\LcmBillingWorktable.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\MergedBillingBackup.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\MergedCrBillingWorktable.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\MergedLcmBillingWorktable.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\MergedStdBillingWorktable.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\MergedWcBillingWorktable.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\StdBillingWorktable.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\TpaGroupNames.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\TpaMedicalClaims.cs" />
+    <Compile Include="Models\ICMS_DATA_STAGING\WcBillingWorktable.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ICMS2\rReferralPriority.cs" />
+    <Compile Include="Models\SelectedMemberNavigation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\DisplayReport.aspx.cs">
+      <DependentUpon>DisplayReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\DisplayReport.aspx.designer.cs">
+      <DependentUpon>DisplayReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\UM\ApprovalMemberLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApprovalMemberLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\UM\ApprovalFacilityLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApprovalFacilityLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\UM\ApprovalReferredToProviderLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApprovalReferredToProviderLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\UM\ApprovalReferringProviderLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApprovalReferringProviderLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\UM\ApprovalTpaLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ApprovalTpaLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\UM\DeniedFacilityLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeniedFacilityLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\UM\DeniedMemberLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeniedMemberLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\UM\DeniedReferredToProviderLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeniedReferredToProviderLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\UM\DeniedReferringProviderLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeniedReferringProviderLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\UM\DeniedTpaLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeniedTpaLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\UM\PartialMemberLetter.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PartialMemberLetter.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Repository\DownloadsRepository.cs" />
+    <Compile Include="Models\ICMS2\MergedSuspendedNotes.cs" />
+    <Compile Include="Repository\UmLetterRepository.cs" />
+    <Compile Include="Repository\DbmsUserRepository.cs" />
+    <Compile Include="Repository\EmployerRepository.cs" />
+    <Compile Include="Repository\MemberRepository.cs" />
+    <Compile Include="Repository\NotesRepository.cs" />
+    <Compile Include="Repository\ReferralRepository.cs" />
+    <Compile Include="Repository\StatesRepository.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap_override.css" />
+    <Content Include="Content\Images\dbms_logo_index.png" />
+    <Content Include="Content\Images\dbms_logo.png" />
+    <Content Include="Content\Images\dbms_logo_trans.png" />
+    <Content Include="Content\scripts\downloads.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Reports\DisplayReport.aspx" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="ApplicationInsights.config" />
+    <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\icms_site.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\MemberSearch.cshtml" />
+    <Content Include="Views\Member\Index.cshtml" />
+    <Content Include="Views\Shared\_FooterPartial.cshtml" />
+    <Content Include="Views\Shared\MemberSearchResults.cshtml" />
+    <Content Include="Views\Member\EditMember.cshtml" />
+    <Content Include="Views\Member\AddMember.cshtml" />
+    <Content Include="Views\Employer\Index.cshtml" />
+    <Content Include="Views\Shared\MemberSelectedNavigation.cshtml" />
+    <Content Include="Views\MemberProfile\Notes.cshtml" />
+    <Content Include="Views\Shared\IcmsIssue.cshtml" />
+    <Content Include="Views\MemberProfile\ReferralSelect.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralGeneral.cshtml" />
+    <Content Include="Views\MemberProfile\_ReferralNav.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralCodes.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralUtilizationInpatient.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralLetters.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralFaxes.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralSavings.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralActions.cshtml" />
+    <Content Include="Views\MemberProfile\_MedicalCodeSearch.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralUtilizationOutpatient.cshtml" />
+    <Content Include="Views\Shared\_LetterViewer.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralRequests.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralRefers.cshtml" />
+    <Content Include="Views\MemberProfile\EditReferralNotes.cshtml" />
+    <Content Include="Views\Downloads\Downloads.cshtml" />
+    <Content Include="Views\Billing\Billing.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="crystalreportviewers13\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709281912076_initialcommit.resx">
+      <DependentUpon>201709281912076_initialcommit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709282005312_ChangedAspnetuserTableToDbmssimsuser.resx">
+      <DependentUpon>201709282005312_ChangedAspnetuserTableToDbmssimsuser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\ApprovalMemberLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ApprovalMemberLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\ApprovalFacilityLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ApprovalFacilityLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\ApprovalReferredToProviderLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ApprovalReferredToProviderLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\ApprovalReferringProviderLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ApprovalReferringProviderLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\ApprovalTpaLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ApprovalTpaLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\DeniedFacilityLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DeniedFacilityLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\DeniedMemberLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DeniedMemberLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\DeniedReferredToProviderLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DeniedReferredToProviderLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\DeniedReferringProviderLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DeniedReferringProviderLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\DeniedTpaLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DeniedTpaLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\UM\PartialMemberLetter.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PartialMemberLetter.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58294</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:58294/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

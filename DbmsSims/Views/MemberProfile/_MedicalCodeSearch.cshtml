@@ -1,0 +1,182 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.MedicalCodeSearchViewModel
+
+<div class="col-md-12 underline-text">
+    <h4>Medical Code Search:</h4>
+</div>
+
+@using (Html.BeginForm("EditReferralCodes", "MemberProfile", FormMethod.Post))
+{
+
+    <div class="container">
+
+
+        @if (Model.ModelReturnMessage != null)
+        {
+            <div class="row success-msg">
+                @Model.ModelReturnMessage
+            </div>
+        }
+
+
+
+        @* ROW 1 *@
+        <div class="row">
+
+            @* COLUMN 1 *@
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    ICD10 @Html.RadioButtonFor(m => m.DiagnosisCodeSearch, "diag", new { @id = "diag", @Name = "optcode", @checked = "checked" })
+                    CPT @Html.RadioButtonFor(m => m.CptCodeSearch, "cpt", new { @id = "cpt", @Name = "optcode" })
+                    HCPCS @Html.RadioButtonFor(m => m.HcpcsCodeSearch, "hcpcs", new { @id = "hcpcs", @Name = "optcode" })
+                </div>
+
+
+
+                <div class="form-group">
+                    Code @Html.RadioButtonFor(m => m.DiagnosisCodeSearch, "codesearch", new { @id = "codesearch", @Name = "optsearchtype", @checked = "checked" })
+                    Description @Html.RadioButtonFor(m => m.CptCodeSearch, "descriptionsearch", new { @id = "descriptionsearch", @Name = "optsearchtype" })
+                    :
+                    &nbsp;
+                    @Html.TextBoxFor(m => m.SearchText, new { id = "txtCodeSearch", placeholder = "Enter Search Text" })
+                </div>
+
+                <div class="form-group">
+                    <input type="button" id="cmdSearch" value="Find Code" class="btn btn-primary" />
+                    <input type="button" id="cmdReset" value="Reset" class="btn btn-primary" />
+                </div>
+
+            </div>
+            @* COLUMN 1 END *@
+
+        </div>
+        @* ROW 1 END *@
+
+
+
+
+        <div class="row">
+
+            <table id="tblSearchResults" class="table hidden">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Code</th>
+                        <th>Short Description</th>
+                        <th>Long Description</th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+
+
+        <div class="border-bottom-divider-1px"></div>
+
+
+
+        @Html.HiddenFor(m => m.ReferralNumber, new { @id = "hdeRefNum" })
+
+    </div>
+
+}
+
+
+
+
+<script type="text/javascript">
+
+    //called when the Reset button is clicked
+    $(document).on("click", '#cmdReset', function (e) {
+        $('#tblSearchResults tbody').remove();
+        $("#tblSearchResults").addClass("hidden");
+    })
+
+    //called when the Search button is clicked
+    $(document).on("click", "#cmdSearch", function (e) {
+
+        var strSearchMethod = $('input[name=optsearchtype]:checked').val();
+        var strTextboxSearchText = $("#txtCodeSearch").val();
+        var strSearchType = $('input[name=optcode]:checked').val();
+        var refno = $("#hdeRefNum").val();
+
+        jQuery.ajax({
+            url: '@Url.Action("MedicalCodeSearch", "MemberProfile")',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                strIncomingSearchMethod: strSearchMethod,
+                strIncomingSearchText: strTextboxSearchText,
+                strIncomingSearchType: strSearchType,
+                strReferralNumber: refno
+            }),
+            success: function (result) {
+
+                if (result)
+                {
+
+                    $('#tblSearchResults tbody').remove();
+
+
+                    var len = result.length;
+                    var txt = "";
+
+                    if (len > 0)
+                    {                        
+
+                        $.each($.parseJSON(result), function (i, reasonforaction)
+                        {
+
+                            txt += "<tbody>";
+                            txt += "<tr>";
+
+                            txt += "<th scope = 'row'>";
+                            txt += "<a href='/MemberProfile/AddCodeToReferral?";
+                            txt += "codetype=" + strSearchType;
+                            txt += "&codeid=" + reasonforaction.SearchReturnCodeId.toString();
+                            txt += "&refno=" + reasonforaction.ReferralNumber + "'>Add</a>";
+                            txt += "</th>";
+
+                            txt += "<td>";
+                            txt += reasonforaction.SearchReturnCode;
+                            txt += "</td>";
+
+                            txt += "<td>";
+                            txt += reasonforaction.SearchReturnShortDescription;
+                            txt += "</td>";
+
+                            txt += "<td>";
+                            txt += reasonforaction.SearchReturnLongDescription;
+                            txt += "</td>";
+
+                            txt += "</tr>";
+                            txt += "</tbody>";
+
+                        })
+
+                    }
+
+                }
+
+
+                if (txt != "")
+                {
+                    $("#tblSearchResults").append(txt).removeClass("hidden");
+                }
+                else
+                {
+                    $("#tblSearchResults").addClass("hidden");
+                    alert("No Codes Match Your Search");
+                }
+
+            },
+            failure: function () {
+                $("#tblSearchResults").addClass("hidden");
+            }
+
+        });
+
+    });
+
+
+    </script>

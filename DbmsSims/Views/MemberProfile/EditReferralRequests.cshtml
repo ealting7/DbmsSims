@@ -1,0 +1,325 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.ReferralRequestViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("~/Views/MemberProfile/_ReferralNav.cshtml",
+              new DbmsSims.Models.ICMS2.ViewModels.ReferralViewModel { ReferralNumber = Model.ReferralNumber, AuthNumber = Model.AuthNumber })
+
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmUtils" }))
+{
+
+    <div class="top-bottom-margins">
+
+        <div class="container">
+
+            @* ROW START *@
+            <div class="row">
+
+                @* MD Request For *@
+                <div class="col">
+
+                    <div class="col">
+                        <label>MD Request For:</label>
+                    </div>
+
+                    <div class="col">
+                        @Html.DropDownListFor(m => m.SystemUserId,
+                                        new SelectList(Model.ReferralMdRequestsFor, "SystemUserId", "SystemUserFullName"),
+                                        "- Please Select -", new { id = "cboMdRequest"})
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* Request Test *@
+                <div class="col">
+
+                    <div class="col">
+                        <label>Request:</label>
+                    </div>
+
+                    <div class="maximum-width">
+                        @Html.TextAreaFor(m => m.RequestText,
+                                new { id = "txtMdRequestText", style = "width: 100%; max-width: 100%; height: 150px;" })
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* Send Request Button *@
+                <div class="col">
+                    <input type="button" id="btnSendRequest" value="Send Request" class="btn btn-primary" />
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <div class="row border-top-divider-1px">
+        <h4>Existing Request Messages:</h4>
+    </div>
+
+
+    <div id="divReply" style="display:none; margin-top:5px;">
+        @Html.TextArea("txtRequestReply", new { style = "width: 100%; max-width: 100%; height: 150px;" })
+        <input type="button" id="btnRequestReply" value="Answer" class="btn btn-primary" />
+        <input type="button" id="btnRequestReplyCancel" value="Cancel" class="btn btn-primary" />
+        @Html.Hidden("hideReplyId")
+        @Html.Hidden("hideReplyType")
+    </div>
+
+
+    @* ROW START *@
+    <div class="row">
+
+        @* existing md requests *@
+        <div class="col-md-12">
+
+            <div class="form-group">
+
+                <div class="col">
+
+                    @if (Model != null)
+                    {
+
+                        <table class="table">
+
+
+                            @foreach (var refrequests in Model.requests)
+                            {
+
+                                <tbody>
+                                    <tr>
+                                        <td><b>** @refrequests.RequestType</b></td>
+                                    </tr>
+
+                                    <tr>
+                                        @if (refrequests.DateEntered != null)
+                                        {
+                                            <td>Date Entered: @refrequests.DateEntered.Value.ToString("MM/dd/yyyy") </td>
+                                        }
+                                        else
+                                        {
+                                            <td>Date Entered: </td>
+                                        }
+                                    </tr>
+
+                                    <tr>
+                                        <td>Assigned To:  @refrequests.SystemUserFullName </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td> <b>Request: </b> @refrequests.RequestText </td>
+                                    </tr>
+
+                                </tbody>
+
+                            }
+
+
+
+                            @foreach (var refquestions in Model.questions)
+                            {
+
+                                <tbody>
+                                    <tr>
+                                        <td><b>** @refquestions.RequestType</b></td>
+                                    </tr>
+
+                                    <tr>
+                                        @if (refquestions.DateEntered != null)
+                                        {
+                                            <td>Date Entered:  @refquestions.DateEntered.Value.ToString("MM/dd/yyyy") </td>
+                                        }
+                                        else
+                                        {
+                                            <td>Date Entered: </td>
+                                        }
+                                    </tr>
+
+                                    <tr>
+                                        <td>Assigned To:  @refquestions.SystemUserFullName </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><b>Question: </b> @refquestions.RequestText</td>
+                                    </tr>
+
+                                    <tr>
+
+                                        @if (!string.IsNullOrEmpty(refquestions.AnswerText))
+                                        {
+                                            <td><b>Answer: </b> @refquestions.AnswerText</td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                            @Html.ActionLink("Reply", "", "",
+                                                             null,
+                                                             new
+                                                             {
+                                                                 id = "linkReply",
+                                                                 @class = "replyrequest",
+                                                                 msgId = refquestions.MdReviewQuestionId,
+                                                                 msgType = refquestions.RequestType
+                                                             })
+                                            </td>
+                                        }
+
+                                    </tr>
+                                </tbody>
+
+                            }
+
+
+                        </table>
+
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    @Html.HiddenFor(m => m.ReferralNumber, new { @id = "hdeRefNum" })
+    @Html.HiddenFor(m => m.MemberId, new { @id = "hdeMemId" })
+
+}
+
+
+
+
+    <script type="text/javascript">
+
+
+        $('#btnSendRequest').click(function () {
+
+            if ($("#cboMdRequest").val() == "")
+            {
+                alert("Please select a MD Request For item");
+                $("#cboMdRequest").focus();
+            }
+            else
+
+            {
+
+                if ($("#txtMdRequestText").val() == "")
+                {
+                    alert("Please enter a MD Request");
+                    $("#txtMdRequestText").focus();
+                }
+                else
+                {
+
+                    var refnum = $("#hdeRefNum").val();
+                    var memberid = $("#hdeMemId").val();
+                    var assigntoid = $("#cboMdRequest").val();
+                    var request = $("#txtMdRequestText").val();
+
+                    $.ajax({
+                        url: '@Url.Action("ReferralMdRequest", "MemberProfile")',
+                        type: 'POST',
+                        datatype: 'json',
+                        data: { RefNum: refnum, MemId: memberid, AssignToId: assigntoid, Request: request },
+                        success: function (result) {
+                            location.reload();
+                        },
+                        error: function (result) {
+                            alert("Please retry to answer the question");
+                        }
+                    });
+
+                }
+
+            }
+
+        });
+
+
+
+        //add a reply to request
+        $(".replyrequest").click(function (e) {
+
+            e.preventDefault();
+
+            var $this = $(this);
+
+            $('#hideReplyId').attr('value', $this.attr('msgId'));
+            $('#hideReplyType').attr('value', $this.attr('msgType'));
+
+            $("#divReply").css("display", " ");
+            $("#divReply").show();
+
+            $("#txtRequestReply").focus();
+
+        });
+
+
+        //hide the reply area
+        $('#btnRequestReplyCancel').click(function () {
+            $("#divReply").css("display", "none");
+        });
+
+
+        $("#btnRequestReply").click(function () {
+
+            var intQuestionId = $("#hideReplyId").attr('value');
+
+            if (intQuestionId.length != 0)
+            {
+
+                var refnum = $("#hdeRefNum").val();
+                var answer = $("#txtRequestReply").val();
+
+                if (answer.length != 0) {
+
+                    $.ajax({
+                        url: '@Url.Action("ReferralRequestReply", "MemberProfile")',
+                        type: 'POST',
+                        datatype: 'json',
+                        data: { RefNum: refnum, Id: intQuestionId, Answer: answer },
+                        success: function (result) {
+                            location.reload();
+                        },
+                        error: function (result) {
+                            alert("Please retry to answer the question");
+                        }
+                    });
+
+                }
+                else {
+                    alert("Please enter an answer reply");
+                    $("#txtRequestReply").focus();
+                }
+
+            }
+
+        });
+
+    </script>

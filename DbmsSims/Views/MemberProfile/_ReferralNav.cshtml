@@ -1,0 +1,63 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.ReferralViewModel
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-2">
+            Ref #: @Model.ReferralNumber
+        </div>
+
+        <div class="col-md-2">
+            Auth #: @Model.AuthNumber
+        </div>
+
+    </div>
+
+
+
+    <div class="row border-top-bottom-divider">
+
+        <div class="col-md-1">
+            @Html.ActionLink("General", "EditReferralGeneral", "MemberProfile", new { RefNum = Model.ReferralNumber }, null)
+        </div>
+
+        <div class="col-md-1">
+            @Html.ActionLink("Actions", "EditReferralActions", "MemberProfile", new { RefNum = Model.ReferralNumber }, null)
+        </div>
+
+        <div class="col-md-1">
+            @Html.ActionLink("Codes", "EditReferralCodes", "MemberProfile", new { RefNum = Model.ReferralNumber }, null)
+        </div>
+
+        <div class="col-md-1">
+            @Html.ActionLink("Utilization", "EditReferralUtilization", "MemberProfile", new { RefNum = Model.ReferralNumber }, null)
+        </div>
+
+        <div class="col-md-1">
+            @Html.ActionLink("Refers", "EditReferralRefers", "MemberProfile", new { RefNum = Model.ReferralNumber }, null)
+        </div>
+
+        <div class="col-md-1">
+            @Html.ActionLink("Requests", "EditReferralRequests", "MemberProfile", new { RefNum = Model.ReferralNumber }, null)
+        </div>
+
+        <div class="col-md-1">
+            @Html.ActionLink("Notes", "EditReferralNotes", "MemberProfile", new { RefNum = Model.ReferralNumber }, null)
+        </div>
+
+        <div class="col-md-1">
+            @Html.ActionLink("Letters", "EditReferralLetters", "MemberProfile", new { RefNum = Model.ReferralNumber }, null)
+        </div>
+
+        <div class="col-md-1">
+            @Html.ActionLink("Faxes", "EditReferralFaxes", "MemberProfile", new { RefNum = Model.ReferralNumber }, null)
+        </div>
+
+        <div class="col-md-1">
+            @Html.ActionLink("Savings", "EditReferralSavings", "MemberProfile", new { RefNum = Model.ReferralNumber }, null)
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,698 @@
+﻿@model DbmsSims.Models.Downloads.ViewModels.DownloadsViewModel
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div id="divDownloadItem" style="display:none; margin-top:5px;">
+
+        <div><span id="spanName"></span></div>
+        <div><span id="spanType"></span></div>
+
+        <input type="button" id="btnDownloadItem" value="Download File" class="btn btn-primary" />
+        <input type="button" id="btnShowDownloadFile" value="Show FTP" class="btn btn-primary" />
+        <input type="button" id="btnDownloadItemCancel" value="Cancel" class="btn btn-primary" />
+        <input type="button" id="btnDownloadDone" value="Reset In-Process Download" class="btn btn-primary" />
+
+        <input id="hdeRptDwnldId" type="hidden" value="">
+
+    </div>
+
+
+
+    <div id="divDownloadingCurrent" style="display:none; margin-top:5px;">
+        <div id="divDownloadingText"  style="display:none">DOWNLOADING...</div>
+        <input type="button" id="btnShowGeneratedDownloadFiles" value="Show File(s)" class="btn btn-primary" style="visibility:hidden" />
+    </div>
+
+
+
+@if (Model.ReportDownloadAdminItems.Count > 0)
+{
+    <div id="divExistingItems">
+
+        <div class="top-bottom-margins">
+            <div class="container">
+                <div class="maximum-width">
+                    <h2>DOWNLOAD ITEMS:</h2>
+                </div>
+            </div>
+        </div>
+
+        @using (Html.BeginForm("MergeDuplicateMembers", "Member", FormMethod.Post))
+        {
+            <div class="top-bottom-margins">
+                <div class="container">
+                    <input type="submit" id="bntMergeDuplicateMembers" value="Merge Duplicate Members" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+
+        @foreach (var rptdowns in Model.ReportDownloadAdminItems)
+        {
+
+            if (rptdowns.RptDownloadId > 0)
+            {
+
+            <div class="top-bottom-margins">
+
+                <div class="container">
+
+                    @* ROW 1 *@
+                    <div class="row">
+
+                        <div class="col-md-5">
+                            @rptdowns.TpaName
+                        </div>
+
+                        <div class="col-md-3">
+                            @rptdowns.DownloadType
+                        </div>
+
+                        <div class="maximum-width border-bottom-divider-1px">
+
+                            <a id='checkfordownloads'
+                               href="javascript:CheckForDownloads('@(rptdowns.RptDownloadId)')">
+                                Check For File
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+                }
+
+            }
+
+
+    </div>
+
+            }
+
+
+            @*<script src="~/Content/scripts/downloads.js">
+            </script>*@
+
+
+
+            <script type="text/javascript">
+
+        $(document).ready(function () {
+            HideDownloadDoneButton();
+        });
+
+
+
+        var verifyFiles = {
+            file: {
+                VerifyFileExistsToDownloadUrl: '@Url.Action("VerifyFileExistsToDownload", "Downloads")'
+            }
+        };
+
+        var parseFile = {
+            file: {
+                ParseFileUrl: '@Url.Action("ParseDownloadFile", "Downloads")'
+            }
+        };
+
+        var processFiles = {
+            file: {
+                ProcessFileUrl: '@Url.Action("DownloadFile", "Downloads")'
+            }
+        };
+
+        var duplicatememberFiles = {
+            file: {
+                DuplicateMemberFileUrl: '@Url.Action("CreateDuplicateMemberFile", "Downloads")'
+            }
+        };
+
+        var membernoemployerFiles = {
+            file: {
+                MemberNoEmployerFileUrl: '@Url.Action("CreateMemberNoEmployerFile", "Downloads")'
+            }
+        };
+
+        var showFiles = {
+            file: {
+                ShowFileUrl: '@Url.Action("ShowFile", "Downloads")'
+            }
+        };
+
+        var resetFiles = {
+            file: {
+                ResetFileUrl: '@Url.Action("ResetFile", "Downloads")'
+            }
+        };
+
+
+
+
+
+
+
+
+        $('#btnDownloadItemCancel').click(function (e) {
+            e.preventDefault();
+            CancelDownload();
+        });
+
+        $('#btnDownloadItem').click(function (e) {
+            e.preventDefault();
+            var strRptDwnldId = $("#hdeRptDwnldId").attr('value');
+            ParseDownloadItem(strRptDwnldId);
+        });
+
+        $('#btnShowDownloadFile').click(function (e) {
+            e.preventDefault();
+            var strRptDwnldId = $("#hdeRptDwnldId").attr('value');
+            ShowDownloadItem(strRptDwnldId);
+        });
+
+        $('#btnDownloadDone').click(function (e) {
+            e.preventDefault();
+            var strRptDwnldId = $("#hdeRptDwnldId").attr('value');
+            ResetDownloadToComplete(strRptDwnldId);
+            HideDownloadDoneButton();
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function CancelDownload()
+    {
+        ResetDownloadTag();
+        HideDownloadItemDiv();
+        ShowExistingItemsDiv();
+    }
+
+    function ParseDownloadItem(strRptDwnldId)
+    {
+
+        if (strRptDwnldId.length > 0)
+        {
+            if ($.isNumeric(strRptDwnldId))
+            {
+                ParseDownloadFile(strRptDwnldId);
+            }
+        }
+        else
+        {
+            alert("Please reselect item for download");
+        }
+
+
+    }
+
+    function ShowDownloadItem(strRptDwnldId)
+    {
+        if (strRptDwnldId.length > 0)
+        {
+            if ($.isNumeric(strRptDwnldId))
+            {
+                ShowFile(strRptDwnldId);
+            }
+        }
+        else
+        {
+            alert("Please reselect item to show");
+        }
+
+    }
+
+    function ResetDownloadToComplete(strRptDwnldId)
+    {
+        if (strRptDwnldId.length > 0) {
+            if ($.isNumeric(strRptDwnldId)) {
+                ResetDownloadItem(strRptDwnldId);
+            }
+        }
+        else {
+            alert("Please reselect item to reset");
+        }
+    }
+
+
+
+
+
+
+    function CheckForDownloads(strRptDownloadId) {
+
+        $('#hdeRptDwnldId').attr('value', strRptDownloadId);
+
+
+        $.ajax({
+            url: verifyFiles.file.VerifyFileExistsToDownloadUrl, // Controller: DownloadsController --- Action: VerifyFileExistsToDownload
+            type: 'POST',
+            datatype: 'json',
+            data: { RptDwnldId: strRptDownloadId },
+            success: function (result) {
+
+                if (result.FileExists) {
+
+                    $('#hdeRptDwnldId').attr('value', strRptDownloadId);
+
+                    $('#spanName').html(result.Name);
+                    $('#spanType').html(result.Type);
+
+                    ShowDownloadReadyScreens();
+
+                }
+                else {
+                    ResetDownloadTag();
+                    HideDownloadItemDiv();
+                    alert("Download file not available")
+                }
+
+            },
+            error: function (result) {
+                ResetDownloadTag();
+                HideDownloadItemDiv();
+                alert("Unable to verify download item");
+            }
+
+        });
+
+    }
+
+    function ParseDownloadFile(strRptDwnldId) {
+        ParseFile(strRptDwnldId);
+                }
+
+    function MergeDuplicateMembers() {
+
+    }
+
+
+
+
+
+    function ParseFile(strRptDwnldId) {
+
+        $.ajax({
+            url: parseFile.file.ParseFileUrl, //DownloadsController.ParseDownloadFile...download file and populate view model
+            type: 'POST',
+            datatype: 'json',
+            data: { RptDwnldId: strRptDwnldId },
+            beforeSend: function() {
+                ShowDownloadInProgressDiv();
+                DisableButtons();
+            },
+            complete: function (result, textstatus) {
+
+                if (result.responseJSON.FileParsed) {
+                    alert("Download complete");
+                    ShowDownloadCompleteScreens();
+                }
+                else {
+
+                    if (result.responseJSON.ParsedItems.DownloadErrorMessage.length > 0) {
+
+                        alert(result.responseJSON.ParsedItems.DownloadErrorMessage);
+                        ShowDownloadCompleteScreens();
+                        ShowDownloadDoneButton();
+
+                    }
+                    else {
+                        alert("Download failed.  Verify download file is named correctly.");
+                        ShowDownloadCompleteScreens();
+                    }
+
+                }
+
+                //if (textstatus == "success") {
+
+                //    if (result.responseJSON.FileParsed) {
+                //        DownloadFile(result.responseJSON.ParsedItems);
+                //    }
+                //    else {
+                //        alert("Download failed");
+                //        ShowDownloadCompleteScreens();
+                //    }
+
+                //}
+                //else
+                //{
+                //    ShowDownloadCompleteScreens();
+                //}
+
+            },
+            error: function (result) { //ERROR
+
+                alert("DOWNLOAD ERROR: Download did not complete");
+                ShowDownloadReadyScreens();
+                ShowDownloadCompleteScreens();
+
+            }
+        });
+
+    }
+
+    function ResetDownloadItem(strRptDwnldId) {
+
+        $.ajax({
+            url: resetFiles.file.ResetFileUrl, //DownloadsController.ResetFile...reset the download file
+            type: 'POST',
+            datatype: 'json',
+            data: { ReportDownloadId: strRptDwnldId },
+            complete: function (result, textstatus) {
+                if (result.responseJSON.FileReset) {
+                    alert("Download reset");
+                    HideDownloadDoneButton();
+                }
+                else {
+                    alert("Reset failed.");
+                    ShowDownloadDoneButton();
+                }
+            },
+            error: function (result) { //ERROR
+                alert("Reset failed.");
+                ShowDownloadDoneButton();
+            }
+        });
+
+    }
+
+    function DownloadFile (ParsedItems)
+    {
+
+        $.ajax({
+            url: processFiles.file.ProcessFileUrl, ////DownloadsController.DownloadFile...process view model and update MEMBER table
+            type: 'POST',
+            datatype: 'json',
+            data: { dwnldsvmToProcess: ParsedItems },
+            beforeSend: function () {
+                $('#divDownloadingText').html("UPDATING MEMBER ELIGIBILITY...");
+            },
+            success: function (result) { //SUCCESS
+
+                if (result.FileDownloaded) {
+
+                    if (result.FailedProcessedItems.EligibilityDownload_CreateDuplicateMemberFile &&
+                        result.FailedProcessedItems.EligibilityDownload_CreateMemberHasNoEmployerFile) {
+
+                        CreateDuplicateMemberFile(result.FailedProcessedItems);
+                        CreateMemberHasNoEmployerFile(result.FailedProcessedItems);
+
+                    }
+                    else if (result.FailedProcessedItems.EligibilityDownload_CreateDuplicateMemberFile) {
+                        CreateDuplicateMemberFile(result.FailedProcessedItems);
+                    }
+                    else if (result.FailedProcessedItems.EligibilityDownload_CreateMemberHasNoEmployerFile) {
+                        CreateMemberHasNoEmployerFile(result.FailedProcessedItems);
+                    }
+                    else
+                    {
+                        ShowDownloadCompleteScreens();
+                    }
+
+                }
+                else
+                {
+                    ShowDownloadCompleteScreens();
+                }
+
+            },
+            error: function (result) { //ERROR
+                alert("Download failed");
+                ShowDownloadReadyScreens();
+            }
+        });
+
+    }
+
+    function CreateDuplicateMemberFile (FailedProcessedItems)
+    {
+
+        $.ajax({ //create a duplicate member file and place it on the ftp site
+            url: duplicatememberFiles.file.DuplicateMemberFileUrl,
+            type: 'POST',
+            datatype: 'json',
+            data: { dwnldsvmToCreateFile: FailedProcessedItems },
+            beforeSend: function () {
+                $('#divDownloadingText').html("CREATING DUPLICATE MEMBER FILE...");
+            },
+            success: function (result) {
+                if (result.DuplicateMemberFileCreated) {
+                    //create or set a button that will allow the user to get into the ftp site to see the created file...the ftp because of HIPPA
+                    ShowDuplicateMemberDownloadFileButton();
+                }
+            },
+            complete: function (result, textstatus) {
+
+                if (textstatus == "success") {
+                    ShowDownloadCompleteScreens();
+                }
+
+            },
+            error: function (result) {
+                alert("Error creating Duplicate Member report");
+                ShowDownloadReadyScreens();
+                return false;
+            }
+        }).done(function (result) {
+
+            if (result.DuplicateMemberFileCreated) {
+                ShowDuplicateMemberDownloadFileDiv();
+            }
+
+        });
+
+    }
+
+    function CreateMemberHasNoEmployerFile (FailedProcessedItems)
+    {
+
+        $.ajax({ //create a member has no employer file and place it on the ftp site
+            url: membernoemployerFiles.file.MemberNoEmployerFileUrl,
+            type: 'POST',
+            datatype: 'json',
+            data: { dwnldsvmToCreateFile: FailedProcessedItems },
+            beforeSend: function () {
+                $('#divDownloadingText').html("CREATING NO EMPLOYER FILE...");
+            },
+            complete: function (result, textstatus) {
+
+                if (textstatus == "success") {
+                    ShowDownloadCompleteScreens();
+                }
+
+            },
+            error: function (result) {
+                alert("Error creating No Employer report");
+                ShowDownloadReadyScreens();
+                return false;
+            }
+        }).done(function (result) {
+
+            if (result.MemberHasNoEmployerFileCreated) {
+                //create or set a button that will allow the user to get into the ftp site to see the created file
+                return true;
+            }
+
+        });
+
+    }
+
+
+
+
+
+    function ShowFile(strRptDwnldId)
+    {
+
+        try {
+
+
+            var strRptDownloadId = $("#hdeRptDwnldId").attr('value');
+
+            if (strRptDownloadId.length > 0 && $.isNumeric(strRptDownloadId)) {
+
+                $.ajax({
+                    url: showFiles.file.ShowFileUrl,
+                    type: 'POST',
+                    datatype: 'json',
+                    data: { RptDwnldId: strRptDownloadId },
+                    success: function (result) {
+
+                        if (result.FileCanBeShown) {
+
+                            //**NEED TO ADD A COLUMN TO THE Report_Download_Admin (i.e. ftp_login_url) table THAT HOLDS "ftps.dbmshealth.com/EGP/Eligibility"
+                            //**THE "ftp//" WILL BE HARDCODED, "dbmsadmin" and "DBMS$.2013!" WILL BE CONCATENATED USING THE RETURNED result
+                            //**PARAMETER,  WILL BE HARDCODED AS WELL...
+                            window.open('ftp://dbmsadmin:DBM$.2013!@@ftps.dbmshealth.com/EGP/Eligibility', '_blank');
+
+                        }
+                        else {
+                            alert("Cannot view file in FTP");
+                            ShowDownloadReadyScreens();
+                        }
+
+                    },
+                    error: function (result) {
+                        alert("Unable to access FTP");
+                        ShowDownloadReadyScreens();
+                    }
+                });
+
+            }
+            else {
+                alert("Please reselect download file");
+                ShowDownloadReadyScreens();
+            }
+
+        }
+        catch (ex)
+        {
+
+        }
+
+    }
+
+
+
+
+
+
+    function ShowDownloadReadyScreens() {
+        HideExistingItemsDiv();
+        ShowDownloadItemDiv();
+    }
+
+    function ShowDownloadCompleteScreens() {
+        EnableButtons();
+        HideDownloadInProgressDiv();
+    }
+
+    function ShowDuplicateMemberDownloadFileDiv()
+    {
+
+        $("#divDownloadingCurrent").css("display", " ");
+        $("#divDownloadingCurrent").show();
+
+    }
+
+
+
+
+
+
+    function ShowExistingItemsDiv()
+    {
+        $("#divExistingItems").css("display", " ");
+        $("#divExistingItems").show();
+    }
+
+    function HideExistingItemsDiv()
+    {
+        $("#divExistingItems").css("display", "none");
+    }
+
+
+    function ShowDownloadItemDiv() {
+        $("#divDownloadItem").css("display", " ");
+        $("#divDownloadItem").show();
+    }
+
+    function HideDownloadItemDiv()
+    {
+        $("#divDownloadItem").css("display", "none");
+    }
+
+
+    function ShowDownloadInProgressDiv()
+    {
+        HideDuplicateMemberDownloadFileButton();
+
+        $("#divDownloadingCurrent").css("display", " ");
+        $("#divDownloadingCurrent").show();
+
+        $("#divDownloadingText").css("display", " ");
+        $("#divDownloadingText").show();
+    }
+
+    function HideDownloadInProgressDiv()
+    {
+        $("#divDownloadingCurrent").css("display", "none");
+        $("#divDownloadingText").css("display", "none");
+
+        $('#divDownloadingText').html("PARSING FILE...");
+    }
+
+
+
+
+
+
+    function DisableButtons()
+    {
+        $("#btnDownloadItem").prop('disabled', true);
+        $("#btnShowDownloadFile").prop('disabled', true);
+        $("#btnDownloadItemCancel").prop('disabled', true);
+        $("#btnDownloadDone").prop('disabled', true);
+    }
+
+    function EnableButtons()
+    {
+        $("#btnDownloadItem").prop('disabled', false);
+        $("#btnShowDownloadFile").prop('disabled', false);
+        $("#btnDownloadItemCancel").prop('disabled', false);
+        $("#btnDownloadDone").prop('disabled', false);
+    }
+
+    function ShowDownloadDoneButton() {
+        //$("#btnDownloadDone").prop('visibility', 'visible');
+        $("#btnDownloadDone").show();
+    }
+
+    function HideDownloadDoneButton() {
+        //$("#btnDownloadDone").prop('visibility', 'hidden');
+        //$("#btnDownloadDone").toggle();
+        $("#btnDownloadDone").hide();
+    }
+
+
+    function ShowDuplicateMemberDownloadFileButton()
+    {
+        $("#btnShowGeneratedDownloadFiles").prop('visibility', 'visible');
+    }
+
+    function HideDuplicateMemberDownloadFileButton()
+    {
+        $("#btnShowGeneratedDownloadFiles").prop('visibility', 'hidden');
+    }
+
+
+
+
+
+    function ResetDownloadTag() {
+        $('#hdeRptDwnldId').attr('value', '');
+        $('#spanName').html('');
+        $('#spanType').html('');
+    }
+
+
+
+            </script>
+
+

@@ -1,0 +1,750 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.UtilizationOutpatientDayViewModel
+
+
+@Html.Partial("~/Views/MemberProfile/_ReferralNav.cshtml",
+              new DbmsSims.Models.ICMS2.ViewModels.ReferralViewModel { ReferralNumber = Model.ReferralNumber, AuthNumber = Model.AuthNumber })
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmUtils" }))
+{
+
+    <div class="top-bottom-margins">
+
+        <div class="container">
+
+            @* ROW START *@
+            <div class="row">
+
+                @* admit date *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Admit Date</label>
+                        </div>
+
+
+                        <div class="col-md-10 focus">
+                            @Html.TextBoxFor(m => m.AuthStartDate, "{0:MM/dd/yyyy}", new { id = "txtauthstart" })
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                @* discharge date*@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Discharge Date</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.AuthEndDate, "{0:MM/dd/yyyy}", new { id = "txtauthend" })
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* save dates button*@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-md-10">
+                            <input type="button" id="btnSaveDates" value="Save Dates" class="btn btn-primary" />
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* auth number*@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10" id="authnumdisp">
+                            @{
+                                if (string.IsNullOrEmpty(Model.AuthNumber))
+                                {
+                                    @Html.ActionLink("Generate Auth Number", 
+                                                     "GenerateNewAuthNumber", 
+                                                     "MemberProfile",
+                                                     new { RefNum = Model.ReferralNumber }, 
+                                                     new { @id = "genau" });
+
+                                    <label id="lblauthnum" class="hidden">Auth Number</label>
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Generate Auth Number", 
+                                                     "GenerateNewAuthNumber", 
+                                                     "MemberProfile", 
+                                                     new { RefNum = Model.ReferralNumber }, 
+                                                     new { @id = "genau", @class = "hidden" });
+
+                                    <label id="lblauthnum">Auth Number</label>
+                                }
+                            }
+
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.AuthNumber, new { @id = "authnum" })
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="row border-top-divider-1px">
+                <h4>Outpatient Utilization:</h4>
+            </div>
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* visit recurring *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Visit Recurring</label>
+                        </div>
+
+
+                        <div class="col-md-10">
+                            @Html.CheckBoxFor(m => m.visits_recurring_flag)
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* # per period requested*@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label># Per Period Requested</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.visits_num_per_period_requested)
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* period requested *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Period Requested</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.visits_period_requested, new SelectList(Model.VisitPeriodsRequestedItemsInDbms, "visit_period_abbrev", "label"), "- Please Select -")
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* # periods requested*@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label># Periods Requested</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.visits_num_periods_requested)
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* # per period authorized*@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label># Per Period Authorized</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.visits_num_per_period_authorized)
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* period authorized *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Period Authorized</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.visits_period_authorized, 
+                                                 new SelectList(Model.VisitPeriodsAuthorizedItemsInDbms, 
+                                                 "visit_period_abbrev", "label"), "- Please Select -",
+                                                  new { @id = "cboPeriodAuthorized"})
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* # periods authorized*@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label># Periods Authorized</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.visits_num_periods_authorized, new { id = "txtPeriodsAuthorized"})
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* start date *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Start Date</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.visits_authorized_start_date, "{0:MM/dd/yyyy}", new { id = "txtstartdate" })
+                            @Html.ValidationMessageFor(m => m.visits_authorized_start_date, "", new { @class = "help-block" })
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* end date *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>End Date</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.visits_authorized_end_date, "{0:MM/dd/yyyy}", new { id = "txtenddate" })
+                            @Html.ValidationMessageFor(m => m.visits_authorized_end_date, "", new { @class = "help-block" })
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* decision by *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Decision By</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.review_type_items_id, new SelectList(Model.ReviewTypeItemsInDbms, "review_type_items_id", "name"), "- Please Select -")
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* decision *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Decision</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.util_decision_id,
+                                                  new SelectList(Model.UtilizationDaysDecisionInDbms, "util_decision_id", "label"),
+                                                  "- Please Select -",
+                                                  new { @id = "decision", onchange = "EnableDenialReason()" })
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* denial reason *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            <label>Denial Reason</label>
+                        </div>
+
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(m => m.denial_reason_id,
+                                                 new SelectList(Model.DenialReasonsInDbms, "id", "label"),
+                                                 "- Please Select -",
+                                                 new { @id = "denialreason", disabled = true })
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* add button *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-md-10">
+                            <input type="button" id="btnAddUtilization" value="Add Utilization" class="btn btn-primary" />
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* empty/blank column *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-md-10">
+                            &nbsp;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* empty/blank column *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-md-10">
+                            &nbsp;
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* empty/blank column *@
+                <div class="col-md-3">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+                            &nbsp;
+                        </div>
+
+                        <div class="col-md-10">
+                            &nbsp;
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="row border-top-divider-1px">
+                <h4>Existing Outpatient Utilization(s):</h4>
+            </div>
+
+
+            @* ROW START *@
+            <div class="row">
+
+                @* existing outpatient utilizations *@
+                <div class="col-md-12">
+
+                    <div class="form-group">
+
+                        @{
+
+                            if (Model.OutpatientUtilizationDaysInReferral.Count.CompareTo(0) > 0)
+                            {
+
+                                <table class="table" id="tblExistingOutpatientUtilizations">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Seq</th>
+                                            <th>Visit Recur</th>
+                                            <th># Per Period Req</th>
+                                            <th>Period Req</th>
+                                            <th># Of Periods Req</th>
+                                            <th># Per Period Auth</th>
+                                            <th>Period Auth</th>
+                                            <th># Of Periods Auth</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Decision By</th>
+                                            <th>Decision</th>
+                                            <th>Denial Reason</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var refutils in Model.OutpatientUtilizationDaysInReferral)
+                                    {
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">
+                                                    @Html.ActionLink("Remove",
+                                                                     "RemoveOutpatientUtilizationFromReferral",
+                                                                     "MemberProfile",
+                                                                     new
+                                                                     {
+                                                                         UtilType = refutils.UtilizationType,
+                                                                         LineNum = refutils.LineNumber,
+                                                                         RefNum = Model.ReferralNumber
+                                                                     },
+                                                                     null)
+                                                </th>
+
+                                                <td> @refutils.LineNumber </td>
+                                                <td> @refutils.VisitRecurring </td>
+                                                <td> @refutils.NumberPerPeriodRequest </td>
+                                                <td> @refutils.PeriodRequested </td>
+                                                <td> @refutils.NumberOfPeriodsRequested </td>
+                                                <td> @refutils.NumberPerPeriodAuthorized </td>
+                                                <td> @refutils.PeriodAuthorized </td>
+                                                <td> @refutils.NumberOfPeriodsAuthorized </td>
+
+
+                                                @if (refutils.AuthorizedStartDate != null)
+                                                {
+                                                    <td> @refutils.AuthorizedStartDate.Value.ToShortDateString() </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>N/A</td>
+                                                }
+
+                                                @if (refutils.AuthorizedEndDate != null)
+                                                {
+                                                    <td> @refutils.AuthorizedEndDate.Value.ToShortDateString() </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>N/A</td>
+                                                }
+
+                                                <td> @refutils.DecisionBy </td>
+                                                <td> @refutils.Decision </td>
+                                                <td> @refutils.DenialReason </td>
+
+                                            </tr>
+
+                                        </tbody>
+
+                                    }
+
+                                </table>
+
+                            }
+                            else
+                            {
+                                <div>No Outpatient Utilizations Attached To Referral</div>
+                            }
+
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+        @Html.HiddenFor(m => m.ReferralNumber, new { @id = "hdeRefNum" })
+        @Html.HiddenFor(m => m.MemberId, new { @id = "hdeMemId" })
+        @Html.HiddenFor(m => m.InpatientOutpatientType, new { @id = "hdeUtilTyp" })
+
+    </div>
+
+}
+
+
+
+<script type="text/javascript">
+
+    //called with the Add Utilization button is clicked
+    $(document).on("click", '#btnAddUtilization', function (e) {
+
+        var myData = $('#frmUtils').serialize();
+        var refnum = $("#hdeRefNum").val();
+
+
+        $.ajax({
+            url: '/MemberProfile/AddOutpatientUtilization',
+            data: myData,
+            success: function (data) {
+                location.reload()
+            },
+            statusCode: {
+                404: function (content) { alert('cannot find resource'); },
+                500: function (content) { alert('internal server error'); }
+            },
+            error: function (req, status, errorObj) {
+                // handle status === "timeout"
+                // handle other errors
+            }
+        });
+
+
+    })
+
+
+
+    //called when the Save Dates button is clicked
+    $(document).on("click", '#btnSaveDates', function (e) {
+
+        var myData = $('#frmUtils').serialize();
+
+
+        $.ajax({
+            url: '/MemberProfile/SaveOutpatientReferralAuthDates',
+            data: myData,
+            success: function (data) {
+                alert("Auth Dates Updated");
+            },
+            statusCode: {
+                404: function (content) { alert('cannot find resource'); },
+                500: function (content) { alert('internal server error'); }
+            },
+            error: function (req, status, errorObj) {
+                // handle status === "timeout"
+                // handle other errors
+            }
+        });
+
+
+    })
+
+
+
+    $(function () {
+
+        $("#genau").click(function () {
+
+            $.post(this.href, function (json) {
+
+                $.each($.parseJSON(json), function (i, authnums) {
+
+                    if (authnums.AuthNumber != "") {
+
+                        $("#authnum").val(authnums.AuthNumber);
+
+                        $("#genau").addClass("hidden");
+                        $("#lblauthnum").removeClass("hidden");
+                    }
+
+                });
+
+            });
+
+            return false;
+
+        });
+
+    });
+
+
+
+
+    function EnableDenialReason() {
+        //denialreason
+        var denialId = $("#decision").val();
+
+        if (denialId == "2") {
+            $("#denialreason").prop("disabled", false);
+            $('#denialreason').focus();
+        }
+        else {
+            $('#denialreason').val("");
+            $("#denialreason").prop("disabled", true);
+        }
+
+
+    }
+
+
+
+
+    //calculate number of days
+    $("#txtstartdate").blur(function () {
+        CalculateEndDate();
+    });
+
+
+
+    function CalculateEndDate() {
+
+        //reset the end date textbox
+        $("#txtenddate").val("");
+
+
+        //get the start date from the textbox
+        var strStartDate = $("#txtstartdate").val();
+
+
+        //make sure there is a value in the start date textbox
+        if (strStartDate.length != 0) {
+
+
+            //verify start date is an actual date
+            var dteStartDate = new Date(strStartDate);
+
+            if (dteStartDate != 'Invalid Date') {
+
+
+                //get the periodS authorized from the textbox
+                var strPeriodsAuthorized = $("#txtPeriodsAuthorized").val();
+
+                //make sure there is a value in the periodS authorized textbox
+                if (strPeriodsAuthorized.length != 0) {
+
+
+                    var intPeriodsAuthorized = parseInt(strPeriodsAuthorized);
+
+
+                    //get the period authorized from the dropdown...m, d, w, y
+                    var strPeriodAuthorized = $("#cboPeriodAuthorized").val();
+
+                    if (strPeriodAuthorized.length != 0) {
+
+
+                        var dteNewDate = new Date(strStartDate);
+
+                        if (strPeriodAuthorized == "d") {
+                            dteNewDate.setDate(dteNewDate.getDate() + intPeriodsAuthorized);
+                        }
+                        else if (strPeriodAuthorized == "w") {
+                            dteNewDate.setDate(dteNewDate.getDate() + (intPeriodsAuthorized * 7));
+                        }
+                        else if (strPeriodAuthorized == "m") {
+                            dteNewDate.setMonth(dteNewDate.getMonth() + intPeriodsAuthorized);
+                        }
+                        else if (strPeriodAuthorized == "y") {
+                            dteNewDate.setFullYear(dteNewDate.getFullYear() + intPeriodsAuthorized);
+                        }
+
+
+                        var day = dteNewDate.getDate();
+                        var month = dteNewDate.getMonth() + 1;
+                        var year = dteNewDate.getFullYear();
+
+                        var strDisplayDate = month + "/" + day + "/" + year;
+
+                        $("#txtenddate").val(strDisplayDate);
+
+                    }
+                }
+            }
+        }
+    }
+
+
+</script>

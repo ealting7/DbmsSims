@@ -1,0 +1,969 @@
+﻿@model DbmsSims.Models.ICMS2.ViewModels.ReferralSavingsViewModel
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@Html.Partial("~/Views/MemberProfile/_ReferralNav.cshtml",
+              new DbmsSims.Models.ICMS2.ViewModels.ReferralViewModel
+              {
+                  ReferralNumber = Model.ReferralNumber,
+                  AuthNumber = Model.AuthNumber
+              })
+
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmUtils" }))
+{
+
+
+
+    @*NOTE ENTRY*@
+    <div id="divSavingsEntry" class="border-bottom-divider-1px" style="display:none;">
+
+        <div class="top-bottom-margins">
+
+            <div class="container">
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>Description</label>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <input type="text" id="txtDescription">
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>Units</label>
+                    </div>
+
+                    <div class="col-lg-2">
+                        @Html.DropDownListFor(m => m.saving_units_id,
+                                        new SelectList(Model.Units, "saving_units_id", "units_label"),
+                                        "- Please Select -", new { id = "cboUnits" })
+
+                    </div>
+
+                </div>
+
+
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>Quantity:</label>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <input type="text" id="txtQuantity">
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>Cost Per:</label>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <input type="text" id="txtCostPerUnit">
+                    </div>
+
+                </div>
+
+
+
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>Negotiate Per:</label>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <input type="text" id="txtNegotiatePerUnit">
+                    </div>
+                    
+                    <div class="col-lg-2">
+                        <label>Savings Per:</label>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <input type="text" id="txtSavingsPerUnit">
+                    </div>
+                    
+                </div>
+
+
+
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>Dollar Or Percent:</label>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <select id="cboDollarOrPercent">
+                            <option value="D">Dollar</option>
+                            <option value="P">Percent</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>Line Item?:</label>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <input type="checkbox" id="chkLineItem">
+                    </div>
+
+                </div>
+
+
+
+
+                @* ROW START *@
+                <div class="row">
+
+                    <div class="col-lg-2">
+                        <label>CPT:</label>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <input type="text" id="txtCpt">
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>Network:</label>
+                    </div>
+
+                    <div class="col-lg-2">
+                        @Html.DropDownListFor(m => m.network_id,
+                                             new SelectList(Model.Networks, "network_id", "network_name"),
+                                             "- Please Select -", new { id = "cboNetwork" })
+                    </div>
+
+                </div>
+
+
+
+                @* ROW START *@
+                <div class="row">
+                    <div class="col-lg-5">
+                        <input type="button" id="btnAddSavings" value="Add Savings" class="btn btn-primary" />
+                        <input type="button" id="btnAddSavingsCancel" value="Cancel" class="btn btn-primary" />
+                    </div>
+                </div>
+
+                @Html.HiddenFor(m => m.UtilizationType, new { @id = "hdeAddUtilType" })
+                <input id="hdeAddLineNum" type="hidden" value="">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    @*CURRENT UTILIZATIONS*@
+    <div id="divUtilis" class="border-bottom-divider-1px" style="display:none;">
+
+        <div class="top-bottom-margins">
+
+            <div class="container">
+
+                @* ROW START *@
+                <div class="row">
+
+                    @if (Model.UtilizationType.Equals("I"))
+                    {
+
+                        if (Model.InpatientUtilizations != null)
+                        {
+
+                            if (Model.InpatientUtilizations.Count.CompareTo(0) > 0)
+                            {
+
+                                <table class="table" id="tblExistingInpatientUtilizations">
+
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Seq</th>
+                                            <th>Bed Typ</th>
+                                            <th>SX</th>
+                                            <th>SX Day1</th>
+                                            <th>Start Date</th>
+                                            <th>Next Review Date</th>
+                                            <th>Decision By</th>
+                                            <th>Decision</th>
+                                            <th>Denial Reason</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var refinpatutils in Model.InpatientUtilizations)
+                                    {
+
+                                        <tbody>
+                                            <tr>
+
+                                                <th scope="row">
+                                                    <a id='addsavings'
+                                                       href="javascript:ShowReferralSavingsAddDiv('@(refinpatutils.LineNumber)')">
+                                                        Add Savings
+                                                    </a>
+
+                                                </th>
+
+                                                <td> @refinpatutils.LineNumber </td>
+                                                <td> @refinpatutils.BedType </td>
+                                                <td> @refinpatutils.SurgeryText </td>
+                                                <td> @refinpatutils.SurgeryOnFirstDayText </td>
+
+                                                @if (refinpatutils.StartDate != null)
+                                                {
+                                                    <td> @refinpatutils.StartDate.Value.ToShortDateString() </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>N/A</td>
+                                                }
+
+                                                @if (refinpatutils.NextReviewDate != null)
+                                                {
+                                                    <td> @refinpatutils.NextReviewDate.Value.ToShortDateString() </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>N/A</td>
+                                                }
+
+                                                <td> @refinpatutils.DecisionBy </td>
+                                                <td> @refinpatutils.Decision </td>
+                                                <td> @refinpatutils.DenialReason </td>
+
+
+                                            </tr>
+
+                                        </tbody>
+
+                                    }
+
+
+                                </table>
+
+                            }
+                            else
+                            {
+                                <div>No Inpatient Utilizations Attached To Referral</div>
+                            }
+
+
+                        }
+
+                    }
+                    else
+                    {
+
+                        if (Model.OutpatientUtilizations != null)
+                        {
+
+                            if (Model.OutpatientUtilizations.Count.CompareTo(0) > 0)
+                            {
+
+                                <table class="table" id="tblExistingOutpatientUtilizations">
+
+                                    <thead>
+                                        <tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Seq</th>
+                                            <th>Visit Recur</th>
+                                            <th># Per Period Req</th>
+                                            <th>Period Req</th>
+                                            <th># Of Periods Req</th>
+                                            <th># Per Period Auth</th>
+                                            <th>Period Auth</th>
+                                            <th># Of Periods Auth</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Decision By</th>
+                                            <th>Decision</th>
+                                            <th>Denial Reason</th>
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var refoutpatutils in Model.OutpatientUtilizations)
+                                    {
+
+                                        <tbody>
+                                            <tr>
+
+                                                <th scope="row">
+                                                    <a id='addsavings'
+                                                       href="javascript:ShowReferralSavingsAddDiv('@(refoutpatutils.LineNumber)')">
+                                                        Add Savings
+                                                    </a>
+                                                </th>
+
+                                                <td> @refoutpatutils.LineNumber </td>
+                                                <td> @refoutpatutils.VisitRecurring </td>
+                                                <td> @refoutpatutils.NumberPerPeriodRequest </td>
+                                                <td> @refoutpatutils.PeriodRequested </td>
+                                                <td> @refoutpatutils.NumberOfPeriodsRequested </td>
+                                                <td> @refoutpatutils.NumberPerPeriodAuthorized </td>
+                                                <td> @refoutpatutils.PeriodAuthorized </td>
+                                                <td> @refoutpatutils.NumberOfPeriodsAuthorized </td>
+
+
+                                                @if (refoutpatutils.AuthorizedStartDate != null)
+                                                {
+                                                    <td> @refoutpatutils.AuthorizedStartDate.Value.ToShortDateString() </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>N/A</td>
+                                                }
+
+                                                @if (refoutpatutils.AuthorizedEndDate != null)
+                                                {
+                                                    <td> @refoutpatutils.AuthorizedEndDate.Value.ToShortDateString() </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>N/A</td>
+                                                }
+
+                                                <td> @refoutpatutils.DecisionBy </td>
+                                                <td> @refoutpatutils.Decision </td>
+                                                <td> @refoutpatutils.DenialReason </td>
+
+                                            </tr>
+                                        </tbody>
+
+                                    }
+
+
+                                </table>
+
+                            }
+                            else
+                            {
+                                <div>No Outpatient Utilizations Attached To Referral</div>
+                            }
+
+                        }
+
+                    }
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <div class="top-bottom-margins">
+
+        <div class="container">
+
+
+            @if (Model.UtilizationType.Equals("I"))
+            {
+
+                if (Model.InpatientUtilizations.Count > 0)
+                {
+
+                    <div class="row">
+                        <div class="border-bottom-divider-1px">
+                            <input type="button" id="btnInpatientAddSavings" value="Add Savings" class="btn btn-primary" />
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div><b>EXISTING SAVINGS:</b></div>
+                    </div>
+
+
+                    <div class="row border-bottom-divider-1px">
+
+                        <div class="col-md-1">
+                            <b>#</b>
+                        </div>
+
+                        <div class="col-sm-1">
+                            <b>Seq</b>
+                        </div>
+
+                        <div class="col-md-2">
+                            <b>Description</b>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Units</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Qty</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Cost Per</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Neg. Per</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Save Per</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>$ or %</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Line Item</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>CPT</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Network</b></div>
+                        </div>
+
+                    </div>
+
+
+                    foreach (var refinpatutils in Model.ReferralSavings)
+                    {
+
+                        <div class="row border-bottom-divider-1px">
+
+                            <div class="col-md-1">
+                                <a id='removesavings'
+                                   href="javascript:RemoveSavingsFromReferral('@(refinpatutils.SavingsId)')">
+                                    Remove
+                                </a>
+                            </div>
+
+                            <div class="col-sm-1">
+                                Seq: @refinpatutils.SavingsLineNumber
+                            </div>
+
+                            <div class="col-md-2">
+                                @refinpatutils.SavingsDescription
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsUnit</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsQuantity</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsCost</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsNegotiatedPerUnit</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsPerUnit</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsDollarOrPercent</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsLineItem</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsCptCode</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsNetwork</div>
+                            </div>
+
+                        </div>
+
+
+
+                    }
+
+                }
+                else
+                {
+                    <div>Enter an Inpatient Utilization before adding savings</div>
+                }
+
+            }
+            else
+            {
+
+                if (Model.OutpatientUtilizations.Count > 0)
+                {
+
+                    <div class="row">
+                        <div class="border-bottom-divider-1px">
+                            <input type="button" id="btnOutpatientAddSavings" value="Add Savings" class="btn btn-primary" />
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div><b>EXISTING SAVINGS:</b></div>
+                    </div>
+
+
+                    <div class="row border-bottom-divider-1px">
+
+                        <div  class="col-md-1">
+                            <b>#</b>
+                        </div>
+
+                        <div class="col-sm-1">
+                            <b>Seq</b>
+                        </div>
+
+                        <div class="col-md-2">
+                            <b>Description</b>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Units</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Qty</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Cost Per</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Neg. Per</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Save Per</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>$ or %</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Line Itm</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>CPT</b></div>
+                        </div>
+
+                        <div class="col-md-1">
+                            <div><b>Network</b></div>
+                        </div>
+
+                    </div>
+
+
+                    foreach (var refinpatutils in Model.ReferralSavings)
+                    {
+
+                        <div class="row border-bottom-divider-1px">
+
+                            <div class="col-md-1">
+                                <a id='removesavings'
+                                   href="javascript:RemoveSavingsFromReferral('@(refinpatutils.SavingsId)')">
+                                Remove
+                                </a>
+                            </div>
+
+                            <div class="col-sm-1">
+                                @refinpatutils.SavingsLineNumber
+                            </div>
+
+                            <div class="col-md-2">
+                                @refinpatutils.SavingsDescription
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsUnit</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsQuantity</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsCost</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsNegotiatedPerUnit</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsPerUnit</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsDollarOrPercent</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsLineItem</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsCptCode</div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div>@refinpatutils.SavingsNetwork</div>
+                            </div>
+
+                        </div>
+
+                    }
+
+                }
+                else
+                {
+                    <div>Enter an Outpatient Utilization before adding savings</div>
+                }
+
+            }
+
+
+        </div>
+
+    </div>
+
+
+
+    @Html.HiddenFor(m => m.ReferralNumber, new { @id = "hdeRefNum" })
+    @Html.HiddenFor(m => m.MemberId, new { @id = "hdeMemId" })
+
+}
+
+
+
+<script type="text/javascript">
+
+
+    $('#btnInpatientAddSavings').click(function () {
+
+        var buttoncaption = $('#btnInpatientAddSavings').val();
+
+        if (buttoncaption == 'Add Savings') {
+            ShowUtilizationsInpatientDiv();
+        }
+        else
+        {
+            HideSavingsAddDiv();
+            HideUtilizationsInpatientDiv();
+        }
+
+    });
+
+    $('#btnOutpatientAddSavings').click(function () {
+
+        var buttoncaption = $('#btnOutpatientAddSavings').val();
+
+        if (buttoncaption == 'Add Savings') {
+            ShowUtilizationsOutpatientDiv();
+        }
+        else {
+            HideSavingsAddDiv();
+            HideUtilizationsOutpatientDiv();
+        }
+
+    });
+
+
+
+
+    $('#btnAddSavingsCancel').click(function () {
+        HideSavingsAddDiv();
+        HideUtilizationsInpatientDiv();
+        HideUtilizationsOutpatientDiv();
+    });
+
+    $('#btnAddSavings').click(function () {
+
+        var strRefNum = $("#hdeRefNum").attr('value');
+        var strMemId = $("#hdeMemId").attr('value');
+        var strUtilType = $("#hdeAddUtilType").attr('value');
+        var strLineNum = $("#hdeAddLineNum").val();
+
+        if (strUtilType.length > 0 && strLineNum.length > 0 && strRefNum.length > 0 && strMemId.length > 0) {
+
+            var description = $("#txtDescription").val();
+            var units = $("#cboUnits option:selected").text();
+            var quantity = $("#txtQuantity").val();
+            var cost = $("#txtCostPerUnit").val();
+            var negotiated = $("#txtNegotiatePerUnit").val();
+            var savings = $("#txtSavingsPerUnit").val();
+            var dollar = $("#cboDollarOrPercent option:selected").text();
+            var lineitem = $("#chkLineItem").prop('checked');
+            var cpt = $("#txtCpt").val();
+            var network = $("#cboNetwork option:selected").text();
+
+            var Verified = VerifySavingsControls();
+
+            if (Verified) {
+
+                $.ajax({
+                    url: '@Url.Action("AddSavingsToReferral", "MemberProfile")',
+                    type: 'POST',
+                    datatype: 'json',
+                    data: {
+                        RefNum: strRefNum, MemId: strMemId, UtilType: strUtilType, LineNumber: strLineNum, Desc: description, Unit: units,
+                        Quantity: quantity, Cost: cost, Negotiated: negotiated, Savings: savings, DollarPercent: dollar, LineItem: lineitem,
+                        Cpt: cpt, Network: network
+                    },
+                    success: function (result) {
+                        location.reload();
+                    },
+                    error: function (result) {
+                        alert("Please retry entering savings");
+                    }
+                });
+
+            }
+
+        }
+        else {
+            alert("Unable to add savings");
+        }
+
+    });
+
+
+
+    function RemoveSavingsFromReferral(SavingsId)
+    {
+
+    }
+
+
+    function VerifySavingsControls()
+    {
+
+        var Verified;
+
+        Verified = true;
+
+
+        var description = $("#txtDescription").val();
+
+        if (description.length <= 0)
+        {
+            Verified = false;
+
+            $("#txtDescription").focus();
+
+            alert("Please enter a description");
+
+            return Verified;
+        }
+
+
+
+        var units = $("#cboUnits option:selected").text();
+
+        if (units == "- Please Select -")
+        {
+            Verified = false;
+
+            $("#cboUnits").focus();
+
+            alert("Please select a unit");
+
+            return Verified;
+        }
+        else
+        {
+            if (units.length <= 0)
+            {
+                Verified = false;
+
+                $("#cboUnits").focus();
+
+                alert("Please select a unit");
+
+                return Verified;
+            }
+
+        }
+
+
+
+        var quantity = $("#txtQuantity").val();
+
+        if (quantity.length <= 0)
+        {
+            Verified = false;
+
+            $("#txtQuantity").focus();
+
+            alert("Please enter a quantity");
+
+            return Verified;
+        }
+        else
+        {
+            if (!$.isNumeric(quantity))
+            {
+                Verified = false;
+
+                $("#txtQuantity").focus();
+
+                alert("Please enter a numeric value for quantity");
+
+                return Verified;
+            }
+
+        }
+
+
+
+
+        var savingsper = $("#txtSavingsPerUnit").val();
+
+        if (savingsper.length <= 0)
+        {
+            Verified = false;
+
+            $("#txtSavingsPerUnit").focus();
+
+            alert("Please enter a savings per unit");
+
+            return Verified;
+        }
+        else {
+            if (!$.isNumeric(savingsper))
+            {
+                Verified = false;
+
+                $("#txtSavingsPerUnit").focus();
+
+                alert("Please enter a numeric value for savings per unit");
+
+                return Verified;
+            }
+
+        }
+
+
+
+        var costper = $("#txtCostPerUnit").val();
+
+        if (costper.length <= 0)
+        {
+            if (!$.isNumeric(costper))
+            {
+                Verified = false;
+
+                $("#txtCostPerUnit").focus();
+
+                alert("Please enter a numeric value for cost per unit");
+
+                return Verified;
+            }
+        }
+
+
+
+        var negotiateper = $("#txtNegotiatePerUnit ").val();
+
+        if (negotiateper.length <= 0)
+        {
+            if (!$.isNumeric(negotiateper))
+            {
+                Verified = false;
+
+                $("#txtNegotiatePerUnit").focus();
+
+                alert("Please enter a numeric value for negotiated per unit");
+
+                return Verified;
+            }
+        }
+
+
+        return Verified;
+
+    }
+
+
+
+
+    function ShowUtilizationsInpatientDiv() {
+        $("#divUtilis").css("display", " ");
+        $("#divUtilis").show();
+        $('#btnInpatientAddSavings').attr('value', 'Cancel Add');
+    }
+
+    function ShowUtilizationsOutpatientDiv() {
+        $("#divUtilis").css("display", " ");
+        $("#divUtilis").show();
+        $('#btnOutpatientAddSavings').attr('value', 'Cancel Add');
+    }
+
+    function HideUtilizationsInpatientDiv() {
+        $("#divUtilis").css("display", "none");
+        $('#btnInpatientAddSavings').attr('value', 'Add Savings');
+    }
+
+    function HideUtilizationsOutpatientDiv() {
+        $("#divUtilis").css("display", "none");
+        $('#btnOutpatientAddSavings').attr('value', 'Add Savings');
+    }
+
+    function ShowReferralSavingsAddDiv(strLineNumber) {
+
+        $('#hdeAddLineNum').attr('value', strLineNumber);
+
+
+        $("#divSavingsEntry").css("display", " ");
+        $("#divSavingsEntry").show();
+
+        $("#txtDescription").focus();
+
+    }
+
+    function HideSavingsAddDiv() {
+        $("#divSavingsEntry").css("display", "none");
+    }
+
+
+
+</script>
